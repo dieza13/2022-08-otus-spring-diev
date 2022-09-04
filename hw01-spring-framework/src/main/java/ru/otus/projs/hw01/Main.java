@@ -9,6 +9,7 @@ public class Main {
 
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("/spring-context.xml");
         TestGenerator testGenerator = ctx.getBean(TestGenerator.class);
+
         testGenerator.generateTest();
 
     }

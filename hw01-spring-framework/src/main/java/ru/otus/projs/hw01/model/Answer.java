@@ -5,15 +5,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @Data
-public class Question {
+public class Answer {
 
-    String content;
-    List<Answer> answers;
+    String answerContext;
 
 }

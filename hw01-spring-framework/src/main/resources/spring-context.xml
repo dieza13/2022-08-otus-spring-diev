@@ -9,8 +9,13 @@
         <constructor-arg value="/questions.csv"/>
     </bean>
 
+    <bean id="questionHandler" class="ru.otus.projs.hw01.service.handler.OutputQuestionHandler" >
+    </bean>
+
     <bean id="testGenerator" class="ru.otus.projs.hw01.service.test_generator.SimpleTestGenerator">
         <constructor-arg name="questionReader" ref="questionReader"/>
+        <constructor-arg name="questionHandler" ref="questionHandler"/>
+        <constructor-arg name="testTitle" value="-----Hello student! Lets take a test!-----"/>
     </bean>
 
 </beans>

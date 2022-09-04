@@ -1,22 +1,17 @@
 package ru.otus.projs.hw01.service.reader;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 import ru.otus.projs.hw01.model.Question;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CSVQuestionReaderTest {
 
-    CSVQuestionReader questionReader;
-    List<Question> questions;
+    private CSVQuestionReader questionReader;
+    private List<Question> questions;
 
     @BeforeEach
     void setUp() {
