@@ -11,22 +11,23 @@ import java.util.List;
 class CSVQuestionReaderTest {
 
     private CSVQuestionReader questionReader;
-    private List<Question> questions;
 
     @BeforeEach
     void setUp() {
         questionReader = new CSVQuestionReader("/test_questions.csv");
-        questions = questionReader.getQuestionList();
     }
 
     @Test
     void getQuestionList_read5questions() {
+
+        List<Question> questions = questionReader.getQuestionList();
         Assertions.assertEquals(questions.size(), 5);
     }
 
     @Test
     void getQuestionList_variantsInQuestion() {
 
+        List<Question> questions = questionReader.getQuestionList();
         List<Integer> counts = Arrays.asList(2,3,3,3,3);
         for (int i = 0; i < 5; i++) {
             Assertions.assertEquals(questions.get(i).getAnswers().size(),counts.get(i));
@@ -37,6 +38,7 @@ class CSVQuestionReaderTest {
     @Test
     void getQuestionList_exactQuestion() {
 
+        List<Question> questions = questionReader.getQuestionList();
         List<String> questionContent = Arrays.asList("To be, or not to be.."
                 ,"What did Charlie answer to Turkish?"
                 ,"Who wants to live forever?"

@@ -38,9 +38,8 @@ public class CSVQuestionReader implements QuestionReader {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             return reader.lines().collect(Collectors.toList());
         } catch (Exception e) {
-            new RuntimeException(String.format(ERR_READ_RESOURCE, fileName),  e);
+            throw new RuntimeException(String.format(ERR_READ_RESOURCE, fileName),  e);
         }
-        return null;
     }
 
     private Question prepareQuestion(String questionLine) {

@@ -4,18 +4,31 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
     <bean id="questionReader" class="ru.otus.projs.hw01.service.reader.CSVQuestionReader" >
         <constructor-arg value="/questions.csv"/>
     </bean>
 
+    <bean id="consoleHandler" class="ru.otus.projs.hw01.service.handler.ConsoleInOutStringHandler" />
+
     <bean id="questionHandler" class="ru.otus.projs.hw01.service.handler.OutputQuestionHandler" >
+        <constructor-arg name="inOutStringHandler" ref="consoleHandler"/>
+    </bean>
+
+    <bean id="questionPreHandler" class="ru.otus.projs.hw01.service.handler.TitleOutputPreHandler">
+        <constructor-arg name="inOutStringHandler" ref="consoleHandler"/>
+        <constructor-arg name="title" value="-----Hello student! Lets take a test!-----"/>
+    </bean>
+
+    <bean id="questionResultHandler" class="ru.otus.projs.hw01.service.handler.OutputQuestionResultHandler">
+        <constructor-arg name="inOutStringHandler" ref="consoleHandler"/>
+        <constructor-arg name="footer" value="-----Test finished!-----"/>
     </bean>
 
     <bean id="testGenerator" class="ru.otus.projs.hw01.service.test_generator.SimpleTestGenerator">
         <constructor-arg name="questionReader" ref="questionReader"/>
         <constructor-arg name="questionHandler" ref="questionHandler"/>
-        <constructor-arg name="testTitle" value="-----Hello student! Lets take a test!-----"/>
+        <constructor-arg name="questionPreHandler" ref="questionPreHandler"/>
+        <constructor-arg name="questionResultHandler" ref="questionResultHandler"/>
     </bean>
 
 </beans>
