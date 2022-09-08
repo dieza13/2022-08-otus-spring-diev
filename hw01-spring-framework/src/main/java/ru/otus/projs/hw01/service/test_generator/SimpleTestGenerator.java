@@ -16,6 +16,11 @@ import java.util.stream.Collectors;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class SimpleTestGenerator implements TestGenerator {
 
+    QuestionHandler questionHandler;
+    QuestionsPreHandler questionPreHandler;
+    QuestionResultHandler questionResultHandler;
+    QuestionReader questionReader;
+
     public SimpleTestGenerator(
             QuestionReader questionReader
             ,QuestionHandler questionHandler
@@ -28,31 +33,6 @@ public class SimpleTestGenerator implements TestGenerator {
         this.questionResultHandler = questionResultHandler;
     }
 
-    QuestionHandler questionHandler;
-    QuestionsPreHandler questionPreHandler;
-    QuestionResultHandler questionResultHandler;
-    QuestionReader questionReader;
-
-    protected List<Question> preGenerate(List<Question> questions) {
-        return questionPreHandler.preHandleQuestions(questions);
-    }
-
-    protected void postGenerate(List<TestResult> results) {
-        questionResultHandler.handleResult(results);
-    }
-
-    protected List<TestResult> generate(List<Question> questions) {
-
-        if (CollectionUtils.isEmpty(questions)) {
-            return null;
-        }
-        return questions
-                .stream()
-                .map(questionHandler::handleQuestion)
-                .collect(Collectors.toList());
-
-    }
-
     public void generateTest() {
 
         List<Question> questions = questionReader.getQuestionList();
@@ -61,6 +41,26 @@ public class SimpleTestGenerator implements TestGenerator {
                 CollectionUtils.isEmpty(modifiedQuestions) ? questions : modifiedQuestions
         );
         postGenerate(results);
+
+    }
+
+    private List<Question> preGenerate(List<Question> questions) {
+        return questionPreHandler.preHandleQuestions(questions);
+    }
+
+    private void postGenerate(List<TestResult> results) {
+        questionResultHandler.handleResult(results);
+    }
+
+    private List<TestResult> generate(List<Question> questions) {
+
+        if (CollectionUtils.isEmpty(questions)) {
+            return null;
+        }
+        return questions
+                .stream()
+                .map(questionHandler::handleQuestion)
+                .collect(Collectors.toList());
 
     }
 
