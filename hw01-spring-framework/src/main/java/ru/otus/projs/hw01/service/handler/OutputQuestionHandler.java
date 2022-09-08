@@ -4,7 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ru.otus.projs.hw01.model.Question;
-import ru.otus.projs.hw01.model.QuestionResult;
+import ru.otus.projs.hw01.model.SimpleResult;
+import ru.otus.projs.hw01.model.TestResult;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -15,13 +16,16 @@ public class OutputQuestionHandler implements QuestionHandler{
     InOutStringHandler inOutStringHandler;
 
     @Override
-    public QuestionResult<String> handleQuestion(Question question) {
+    public TestResult handleQuestion(Question question) {
 
         inOutStringHandler.writeString(String.format(QUESTION_OUT_FORMAT,question.getContent()));
         question.getAnswers().forEach(answ -> inOutStringHandler.writeString(String.format(ANSWER_OUT_FORMAT, answ.getAnswerContext())));
         inOutStringHandler.writeString("\n");
+        return handleResult(question);
+    }
 
-        return new QuestionResult<>(question, "Console output");
+    protected TestResult handleResult(Question question) {
+        return new SimpleResult();
     }
 
 }

@@ -8,7 +8,10 @@
         <constructor-arg value="/questions.csv"/>
     </bean>
 
-    <bean id="consoleHandler" class="ru.otus.projs.hw01.service.handler.ConsoleInOutStringHandler" />
+    <bean id="consoleHandler" class="ru.otus.projs.hw01.service.handler.ConsoleInOutStringHandler" >
+        <constructor-arg name="in" value="#{ T(java.lang.System).in }"/>
+        <constructor-arg name="out" value="#{ T(java.lang.System).out }"/>
+    </bean>
 
     <bean id="questionHandler" class="ru.otus.projs.hw01.service.handler.OutputQuestionHandler" >
         <constructor-arg name="inOutStringHandler" ref="consoleHandler"/>

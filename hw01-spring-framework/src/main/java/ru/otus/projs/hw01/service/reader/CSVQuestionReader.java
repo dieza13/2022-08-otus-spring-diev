@@ -20,7 +20,7 @@ public class CSVQuestionReader implements QuestionReader {
 
     String fileName;
 
-    static String ERR_READ_RESOURCE = "Ошибка чтения ресурса %s: ";
+    static String ERR_READ_RESOURCE = "Reading resource error %s: ";
 
     @Override
     public List<Question> getQuestionList() {

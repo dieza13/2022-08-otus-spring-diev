@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.util.CollectionUtils;
 import ru.otus.projs.hw01.model.Question;
-import ru.otus.projs.hw01.model.QuestionResult;
+import ru.otus.projs.hw01.model.TestResult;
 import ru.otus.projs.hw01.service.handler.QuestionHandler;
 import ru.otus.projs.hw01.service.handler.QuestionResultHandler;
 import ru.otus.projs.hw01.service.handler.QuestionsPreHandler;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class SimpleTestGenerator extends TestGenerator {
+public class SimpleTestGenerator implements TestGenerator {
 
     public SimpleTestGenerator(
             QuestionReader questionReader
@@ -22,7 +22,7 @@ public class SimpleTestGenerator extends TestGenerator {
             ,QuestionsPreHandler questionPreHandler
             ,QuestionResultHandler questionResultHandler
     ) {
-        super(questionReader);
+        this.questionReader = questionReader;
         this.questionHandler = questionHandler;
         this.questionPreHandler = questionPreHandler;
         this.questionResultHandler = questionResultHandler;
@@ -31,19 +31,17 @@ public class SimpleTestGenerator extends TestGenerator {
     QuestionHandler questionHandler;
     QuestionsPreHandler questionPreHandler;
     QuestionResultHandler questionResultHandler;
+    QuestionReader questionReader;
 
-    @Override
     protected List<Question> preGenerate(List<Question> questions) {
         return questionPreHandler.preHandleQuestions(questions);
     }
 
-    @Override
-    protected void postGenerate(List<QuestionResult> results) {
+    protected void postGenerate(List<TestResult> results) {
         questionResultHandler.handleResult(results);
     }
 
-    @Override
-    protected List<QuestionResult> generate(List<Question> questions) {
+    protected List<TestResult> generate(List<Question> questions) {
 
         if (CollectionUtils.isEmpty(questions)) {
             return null;
@@ -54,5 +52,17 @@ public class SimpleTestGenerator extends TestGenerator {
                 .collect(Collectors.toList());
 
     }
+
+    public void generateTest() {
+
+        List<Question> questions = questionReader.getQuestionList();
+        List<Question> modifiedQuestions = preGenerate(questions);
+        List<TestResult> results = generate(
+                CollectionUtils.isEmpty(modifiedQuestions) ? questions : modifiedQuestions
+        );
+        postGenerate(results);
+
+    }
+
 
 }

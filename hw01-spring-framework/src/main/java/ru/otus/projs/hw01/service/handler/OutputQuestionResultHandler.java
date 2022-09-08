@@ -3,7 +3,7 @@ package ru.otus.projs.hw01.service.handler;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.otus.projs.hw01.model.QuestionResult;
+import ru.otus.projs.hw01.model.TestResult;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class OutputQuestionResultHandler implements QuestionResultHandler{
     String footer;
 
     @Override
-    public void handleResult(List<QuestionResult> questionResults) {
+    public void handleResult(List<TestResult> questionResults) {
 
         inOutStringHandler.writeString(footer);
 
