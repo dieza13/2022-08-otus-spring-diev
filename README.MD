@@ -9,3 +9,4 @@ spring-2022-08
 
 Работы:  
 Работа 1: hw01-spring-framework  
+Работа 2: hw02-spring-config  

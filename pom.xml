@@ -16,6 +16,7 @@
 
     <modules>
         <module>hw01-spring-framework</module>
+        <module>hw02-spring-config</module>
     </modules>
 
 </project>

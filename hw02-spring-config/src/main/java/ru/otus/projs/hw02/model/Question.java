@@ -1,4 +1,4 @@
-package ru.otus.projs.hw01.model;
+package ru.otus.projs.hw02.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -14,5 +14,11 @@ public class Question {
 
     String content;
     List<Answer> answers;
+
+    public Answer getAnswer(int num) {
+
+        return getAnswers().get(num);
+
+    }
 
 }
