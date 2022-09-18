@@ -4,8 +4,8 @@ import ru.otus.projs.hw02.model.Question;
 
 import java.util.List;
 
-public interface QuestionReader {
+public interface QuestionService {
 
-    List<Question> getQuestionList();
+    List<Question> findAll();
 
 }

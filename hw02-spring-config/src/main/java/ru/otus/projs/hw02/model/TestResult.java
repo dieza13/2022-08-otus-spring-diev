@@ -1,7 +1,13 @@
 package ru.otus.projs.hw02.model;
 
-public interface TestResult {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    boolean isSuccess();
+import java.util.List;
 
+@RequiredArgsConstructor
+@Getter
+public class TestResult {
+    private final User user;
+    private final List<QuestionResult> questionResults;
 }

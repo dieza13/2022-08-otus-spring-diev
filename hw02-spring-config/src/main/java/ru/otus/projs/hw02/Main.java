@@ -4,17 +4,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.projs.hw02.service.test_generator.TestGenerator;
+import ru.otus.projs.hw02.service.test_executor.TestExecutor;
 
 @Configuration
-@ComponentScan("ru.otus")
+@ComponentScan("ru.otus.projs.hw02")
 public class Main {
 
     public static void main(String[] args) {
 
         ApplicationContext ctx = new AnnotationConfigApplicationContext(Main.class);
-        TestGenerator testGenerator = ctx.getBean(TestGenerator.class);
-        testGenerator.generateTest();
+        TestExecutor testGenerator = ctx.getBean(TestExecutor.class);
+        testGenerator.execute();
 
     }
 
