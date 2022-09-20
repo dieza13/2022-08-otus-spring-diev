@@ -2,7 +2,7 @@ package ru.otus.projs.hw02.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.projs.hw02.exception.ETestException;
+import ru.otus.projs.hw02.exception.InputReadingException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -10,17 +10,17 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 @Service
-public class ConsoleInOutService implements InOutService {
+public class SimpleInOutService implements InOutService {
 
     private final MessageService messageService;
     private final BufferedReader reader;
     private final InputStream in;
     private final PrintStream out;
 
-    public ConsoleInOutService(
+    public SimpleInOutService(
             MessageService messageService,
-            @Value("#{ T(java.lang.System).in }")InputStream in,
-            @Value("#{ T(java.lang.System).out }")PrintStream out
+            @Value("#{ T(java.lang.System).in }") InputStream in,
+            @Value("#{ T(java.lang.System).out }") PrintStream out
     ) {
         this.messageService = messageService;
         reader = new BufferedReader(new InputStreamReader(in));
@@ -31,10 +31,10 @@ public class ConsoleInOutService implements InOutService {
     @Override
     public String readString() {
 
-        try{
+        try {
             return reader.readLine();
         } catch (Exception e) {
-            throw new ETestException(messageService.getMessage("err.console.reading"), e);
+            throw new InputReadingException(e);
         }
 
     }
@@ -43,17 +43,6 @@ public class ConsoleInOutService implements InOutService {
     public void writeString(String outString) {
         out.print(outString);
     }
-
-    @Override
-    public void writeStringFromSource(String code) {
-        out.print(messageService.getMessage(code));
-    }
-
-    @Override
-    public void writeStringFromSource(String code, String[] args) {
-        out.print(messageService.getMessage(code, args));
-    }
-
 
 
 }

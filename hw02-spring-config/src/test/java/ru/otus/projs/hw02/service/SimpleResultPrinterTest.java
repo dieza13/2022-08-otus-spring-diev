@@ -4,21 +4,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.InputStream;
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class SimpleResultPrinterTest {
 
-    private ConsoleInOutService inOutService;
+    private SimpleInOutService inOutService;
     private SimpleResultPrinter simpleResultPrinter;
 
     @BeforeEach
     void setUp() {
-        inOutService = Mockito.mock(ConsoleInOutService.class);
+        inOutService = Mockito.mock(SimpleInOutService.class);
         simpleResultPrinter = new SimpleResultPrinter(inOutService);
     }
 

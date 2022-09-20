@@ -3,7 +3,7 @@ package ru.otus.projs.hw02.service.test_executor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.otus.projs.hw02.exception.ETestException;
+import ru.otus.projs.hw02.exception.HandleTestResultException;
 import ru.otus.projs.hw02.service.*;
 import ru.otus.projs.hw02.service.reader.QuestionService;
 import ru.otus.projs.hw02.service.reader.SimpleQuestionService;
@@ -11,7 +11,9 @@ import ru.otus.projs.hw02.service.user.SimpleUserService;
 import ru.otus.projs.hw02.service.user.UserService;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class SimpleTestExecutorTest {
 
@@ -21,7 +23,7 @@ class SimpleTestExecutorTest {
     private UserService userService;
     private TestingService testingService;
     private ResultPrinter resultPrinterService;
-    private InOutService inOutService;
+    private MessageWriterService messageWriterService;
 
     @BeforeEach
     void setUp() {
@@ -30,9 +32,9 @@ class SimpleTestExecutorTest {
         userService = Mockito.mock(SimpleUserService.class);
         testingService = Mockito.mock(SimpleTestingService.class);
         resultPrinterService = Mockito.mock(SimpleResultPrinter.class);
-        inOutService = Mockito.mock(ConsoleInOutService.class);
+        messageWriterService = Mockito.mock(MessageWriterService.class);
 
-        simpleTestExecutor = new SimpleTestExecutor(questionService, userService, testingService, questionResultService, resultPrinterService, inOutService);
+        simpleTestExecutor = new SimpleTestExecutor(questionService, userService, testingService, questionResultService, resultPrinterService, messageWriterService);
     }
 
     @Test
@@ -49,7 +51,7 @@ class SimpleTestExecutorTest {
 
     @Test
     void execute_withError() {
-        when(questionResultService.handleResult(any())).thenThrow(new ETestException("OPS"));
+        when(questionResultService.handleResult(any())).thenThrow(new HandleTestResultException(null));
 
         simpleTestExecutor.execute();
         verify(questionService, times(1)).findAll();
@@ -57,7 +59,7 @@ class SimpleTestExecutorTest {
         verify(testingService, times(1)).askQuestions(any(), any());
         verify(questionResultService, times(1)).handleResult(any());
         verify(resultPrinterService, times(0)).print(any());
-        verify(inOutService, times(1)).writeStringFromSource("err.main.handle", new String[]{"OPS"});
+        verify(messageWriterService, times(1)).writeStringFromSource("err.main.handle", "Error on handling test result");
 
     }
 }

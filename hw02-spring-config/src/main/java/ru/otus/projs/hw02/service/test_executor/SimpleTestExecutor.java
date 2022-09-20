@@ -18,7 +18,7 @@ public class SimpleTestExecutor implements TestExecutor {
     private final UserService userService;
     private final TestingService testingService;
     private final ResultPrinter resultPrinterService;
-    private final InOutService inOutService;
+    private final MessageWriterService writerService;
 
     public SimpleTestExecutor(
             QuestionService questionService,
@@ -26,14 +26,14 @@ public class SimpleTestExecutor implements TestExecutor {
             TestingService testingService,
             QuestionResultService questionResultService,
             ResultPrinter resultPrinter,
-            InOutService inOutService
+            MessageWriterService writerService
     ) {
         this.questionResultService = questionResultService;
         this.testingService = testingService;
         this.questionService = questionService;
         this.userService = userService;
         this.resultPrinterService = resultPrinter;
-        this.inOutService = inOutService;
+        this.writerService = writerService;
     }
 
     public void execute() {
@@ -45,7 +45,7 @@ public class SimpleTestExecutor implements TestExecutor {
             String result = questionResultService.handleResult(testResult);
             resultPrinterService.print(result);
         } catch (Exception e) {
-            inOutService.writeStringFromSource("err.main.handle", new String[]{e.getMessage()});
+            writerService.writeStringFromSource("err.main.handle", e.getMessage());
         }
     }
 

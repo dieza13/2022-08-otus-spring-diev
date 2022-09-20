@@ -9,10 +9,9 @@ import ru.otus.projs.hw02.model.SimpleResult;
 import ru.otus.projs.hw02.model.TestResult;
 import ru.otus.projs.hw02.model.User;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -21,13 +20,15 @@ class SimpleTestingServiceTest {
 
     private SimpleTestingService testingService;
     private MessageService messageService;
-    private ConsoleInOutService inOutService;
+    private SimpleInOutService inOutService;
+    private MessageWriterService messageWriterService;
 
     @BeforeEach
     void setUp() {
         messageService = Mockito.mock(SimpleMessageService.class);
-        inOutService = Mockito.mock(ConsoleInOutService.class);
-        testingService = new SimpleTestingService(inOutService,messageService);
+        inOutService = Mockito.mock(SimpleInOutService.class);
+        messageWriterService = Mockito.mock(MessageWriterService.class);
+        testingService = new SimpleTestingService(inOutService,messageWriterService,messageService);
     }
 
     @Test

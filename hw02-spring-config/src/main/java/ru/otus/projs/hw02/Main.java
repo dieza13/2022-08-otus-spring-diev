@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
         ApplicationContext ctx = new AnnotationConfigApplicationContext(Main.class);
-        TestExecutor testGenerator = ctx.getBean(TestExecutor.class);
-        testGenerator.execute();
+        TestExecutor testExecutor = ctx.getBean(TestExecutor.class);
+        testExecutor.execute();
 
     }
 

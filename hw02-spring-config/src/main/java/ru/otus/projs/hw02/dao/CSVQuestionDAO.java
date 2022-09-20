@@ -6,7 +6,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.otus.projs.hw02.exception.ETestException;
+import ru.otus.projs.hw02.exception.QuestionNoAnswerException;
+import ru.otus.projs.hw02.exception.QuestionsResourceReadingException;
 import ru.otus.projs.hw02.factory.QuestionFactory;
 import ru.otus.projs.hw02.model.Answer;
 import ru.otus.projs.hw02.model.Question;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -26,7 +28,6 @@ public class CSVQuestionDAO implements QuestionDAO {
     private final String fileName;
     private final QuestionFactory questionFactory;
     private final CSVParser parser;
-    private final MessageService messageService;
 
     public CSVQuestionDAO(
             @Value("${file.csv.questions}") String fileName,
@@ -36,14 +37,12 @@ public class CSVQuestionDAO implements QuestionDAO {
         this.fileName = fileName;
         this.questionFactory = questionFactory;
         parser = new CSVParserBuilder().withSeparator(';').build();
-        this.messageService = messageService;
     }
 
     @Override
     public List<Question> findAll() {
         return readFileToStringArray(fileName)
                 .stream()
-//                .filter(line -> !line.trim().isBlank())
                 .map(this::prepareQuestion)
                 .collect(Collectors.toList());
     }
@@ -56,13 +55,10 @@ public class CSVQuestionDAO implements QuestionDAO {
                         new InputStreamReader(this.getClass().getResourceAsStream(fileName)))
                         .withCSVParser(parser)
                         .build()
-        )
-        {
+        ) {
             return reader.readAll();
         } catch (Exception e) {
-            throw new ETestException(
-                    messageService.getMessage("err.resource.reading", new String[]{fileName}),
-                    e);
+            throw new QuestionsResourceReadingException(fileName, e);
         }
 
     }
@@ -70,7 +66,7 @@ public class CSVQuestionDAO implements QuestionDAO {
     private Question prepareQuestion(String[] questionContent) {
 
         if (questionContent.length < 2) {
-            throw new ETestException(messageService.getMessage("err.resource.noanswer"));
+            throw new QuestionNoAnswerException(Optional.ofNullable(questionContent).orElse(new String[]{"NO ANSWER CONTENT"})[0]);
         }
         String content = questionContent[0];
         List<Answer> answers = (questionContent.length > 1)

@@ -1,6 +1,7 @@
 package ru.otus.projs.hw02.service;
 
 import org.springframework.stereotype.Service;
+import ru.otus.projs.hw02.exception.OnAskQuestionException;
 import ru.otus.projs.hw02.model.Question;
 import ru.otus.projs.hw02.model.QuestionResult;
 import ru.otus.projs.hw02.model.SimpleResult;
@@ -17,43 +18,48 @@ public class SimpleTestingService implements TestingService {
     private final static String QUESTION_OUT_FORMAT = "%s \n";
 
     private final InOutService inOutService;
+    private final MessageWriterService messageWriterService;
     private final MessageService messageService;
 
     public SimpleTestingService(
             InOutService inOutService,
+            MessageWriterService messageWriterService,
             MessageService messageService
     ) {
         this.inOutService = inOutService;
+        this.messageWriterService = messageWriterService;
         this.messageService = messageService;
     }
 
     @Override
     public TestResult askQuestions(User user, List<Question> questions) {
 
-        inOutService.writeStringFromSource("text.title.greeting", new String[]{user.getFirstName(), user.getLastName()});
-        List<QuestionResult> results = questions.stream().map(this::handleQuestion).collect(Collectors.toList());
+        messageWriterService.writeStringFromSource("text.title.greeting", user.getFirstName(), user.getLastName());
+        List<QuestionResult> results = questions.stream().map(this::askQuestion).collect(Collectors.toList());
         return new TestResult(user, results);
 
     }
 
-    protected QuestionResult handleQuestion(Question question) {
-
-        inOutService.writeString(String.format(QUESTION_OUT_FORMAT, question.getContent()));
-        if (question.getAnswers() != null && question.getAnswers().size() > 1)
-            if (question.getAnswers().size() > 1) {
-                for (int i = 0; i < question.getAnswers().size(); i++) {
-                    if (question.getAnswer(i).isPresent())
-                        inOutService.writeString(
-                                String.format(
-                                        ANSWER_OUT_FORMAT,
-                                        i + 1,
-                                        question.getAnswer(i).get().getAnswerContext()
-                                ));
+    protected QuestionResult askQuestion(Question question) {
+        try {
+            inOutService.writeString(String.format(QUESTION_OUT_FORMAT, question.getContent()));
+            if (question.getAnswers() != null && question.getAnswers().size() > 1)
+                if (question.getAnswers().size() > 1) {
+                    for (int i = 0; i < question.getAnswers().size(); i++) {
+                        if (question.getAnswer(i).isPresent())
+                            inOutService.writeString(
+                                    String.format(
+                                            ANSWER_OUT_FORMAT,
+                                            i + 1,
+                                            question.getAnswer(i).get().getAnswerContext()
+                                    ));
+                    }
                 }
-            }
-        String userAnswer = requestAnswer(question);
-        return new SimpleResult(question, userAnswer);
-
+            String userAnswer = requestAnswer(question);
+            return new SimpleResult(question, userAnswer);
+        }catch (Exception e) {
+            throw new OnAskQuestionException(question, e);
+        }
     }
 
     private String requestAnswer(Question question) {

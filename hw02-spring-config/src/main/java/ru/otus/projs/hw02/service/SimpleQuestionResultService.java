@@ -3,6 +3,7 @@ package ru.otus.projs.hw02.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import ru.otus.projs.hw02.exception.HandleTestResultException;
 import ru.otus.projs.hw02.model.QuestionResult;
 import ru.otus.projs.hw02.model.TestResult;
 
@@ -25,25 +26,29 @@ public class SimpleQuestionResultService implements QuestionResultService {
     @Override
     public String handleResult(TestResult testResults) {
 
-        StringBuilder stringResult = new StringBuilder(messageService.getMessage("text.title.student.test.result"));
-        List<QuestionResult> questionResults = testResults.getQuestionResults();
-        if(CollectionUtils.isEmpty(questionResults)) {
-            return messageService.getMessage("text.title.student.test.noResults");
+        try {
+            StringBuilder stringResult = new StringBuilder(messageService.getMessage("text.title.student.test.result"));
+            List<QuestionResult> questionResults = testResults.getQuestionResults();
+            if (CollectionUtils.isEmpty(questionResults)) {
+                return messageService.getMessage("text.title.student.test.noResults");
+            }
+
+            int questionCount = questionResults.size();
+            long correctAnswersCount = questionResults
+                    .stream()
+                    .filter(QuestionResult::isSuccess)
+                    .count();
+
+            stringResult.append(messageService.getMessage("text.title.student.test.result.output", new Integer[]{questionCount, (int) correctAnswersCount}));
+            String testPassText = (passLimit <= correctAnswersCount) ?
+                    messageService.getMessage("text.title.student.test.passed") :
+                    messageService.getMessage("text.title.student.test.notPassed");
+            if (passLimit != null && passLimit >= 0)
+                stringResult.append(testPassText);
+
+            return stringResult.toString();
+        } catch(Exception e) {
+            throw new HandleTestResultException(testResults);
         }
-
-        int questionCount = questionResults.size();
-        long correctAnswersCount = questionResults
-                .stream()
-                .filter(QuestionResult::isSuccess)
-                .count();
-
-        stringResult.append(messageService.getMessage("text.title.student.test.result.output", new Integer[]{questionCount, (int)correctAnswersCount}));
-        String testPassText = (passLimit <= correctAnswersCount) ?
-                messageService.getMessage("text.title.student.test.passed")  :
-                messageService.getMessage("text.title.student.test.notPassed");
-        if (passLimit != null && passLimit >= 0)
-            stringResult.append(testPassText);
-
-        return stringResult.toString();
     }
 }
