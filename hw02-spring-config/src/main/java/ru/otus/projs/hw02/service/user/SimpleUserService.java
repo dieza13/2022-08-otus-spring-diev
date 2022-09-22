@@ -23,7 +23,7 @@ public class SimpleUserService implements UserService {
             String lastName = inOutService.readString();
             return new User(firstName, lastName);
         } catch (Exception e) {
-            throw new GetUserInfoException();
+            throw new GetUserInfoException(e);
         }
     }
 

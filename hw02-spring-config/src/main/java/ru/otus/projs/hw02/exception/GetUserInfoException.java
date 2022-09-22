@@ -6,7 +6,7 @@ public class GetUserInfoException extends RuntimeException{
         super("Error with getting user info");
     }
 
-    public GetUserInfoException(String resourceName, Throwable cause) {
+    public GetUserInfoException(Throwable cause) {
         super("Error with getting user info", cause);
     }
 

@@ -12,7 +12,6 @@ import java.io.PrintStream;
 @Service
 public class SimpleInOutService implements InOutService {
 
-    private final MessageService messageService;
     private final BufferedReader reader;
     private final InputStream in;
     private final PrintStream out;
@@ -22,7 +21,6 @@ public class SimpleInOutService implements InOutService {
             @Value("#{ T(java.lang.System).in }") InputStream in,
             @Value("#{ T(java.lang.System).out }") PrintStream out
     ) {
-        this.messageService = messageService;
         reader = new BufferedReader(new InputStreamReader(in));
         this.in = in;
         this.out = out;

@@ -25,7 +25,7 @@ class SimpleQuestionResultServiceTest {
 
         when(messageService.getMessage("text.title.student.test.result")).thenReturn("val1");
         when(messageService.getMessage("text.title.student.test.noResults")).thenReturn("val2");
-        when(messageService.getMessage("text.title.student.test.result.output",new Integer[]{2, 2})).thenReturn("val3");
+        when(messageService.getMessage("text.title.student.test.result.output",2, 2)).thenReturn("val3");
         when(messageService.getMessage("text.title.student.test.passed")).thenReturn("val4");
         when(messageService.getMessage("text.title.student.test.notPassed")).thenReturn("val5");
     }
@@ -44,7 +44,7 @@ class SimpleQuestionResultServiceTest {
         Assertions.assertEquals(result, "val1val3val4");
 
         verify(messageService, times(2)).getMessage(any());
-        verify(messageService, times(1)).getMessage(any(),any(Integer[].class));
+        verify(messageService, times(1)).getMessage(any(),anyInt(),anyInt());
     }
 
     @Test

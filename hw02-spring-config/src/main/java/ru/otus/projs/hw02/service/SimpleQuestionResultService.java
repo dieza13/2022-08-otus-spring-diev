@@ -39,7 +39,7 @@ public class SimpleQuestionResultService implements QuestionResultService {
                     .filter(QuestionResult::isSuccess)
                     .count();
 
-            stringResult.append(messageService.getMessage("text.title.student.test.result.output", new Integer[]{questionCount, (int) correctAnswersCount}));
+            stringResult.append(messageService.getMessage("text.title.student.test.result.output", (int)questionCount, (int)correctAnswersCount));
             String testPassText = (passLimit <= correctAnswersCount) ?
                     messageService.getMessage("text.title.student.test.passed") :
                     messageService.getMessage("text.title.student.test.notPassed");

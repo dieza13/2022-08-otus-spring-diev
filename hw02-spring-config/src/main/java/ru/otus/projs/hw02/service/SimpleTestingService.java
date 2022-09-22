@@ -10,6 +10,7 @@ import ru.otus.projs.hw02.model.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class SimpleTestingService implements TestingService {
@@ -43,18 +44,17 @@ public class SimpleTestingService implements TestingService {
     protected QuestionResult askQuestion(Question question) {
         try {
             inOutService.writeString(String.format(QUESTION_OUT_FORMAT, question.getContent()));
-            if (question.getAnswers() != null && question.getAnswers().size() > 1)
-                if (question.getAnswers().size() > 1) {
-                    for (int i = 0; i < question.getAnswers().size(); i++) {
-                        if (question.getAnswer(i).isPresent())
-                            inOutService.writeString(
-                                    String.format(
-                                            ANSWER_OUT_FORMAT,
-                                            i + 1,
-                                            question.getAnswer(i).get().getAnswerContext()
-                                    ));
-                    }
-                }
+            if (question.getAnswers() != null && question.getAnswers().size() > 1) {
+                IntStream
+                        .range(0, question.getAnswers().size())
+                        .mapToObj(i->
+                                String.format(
+                                        ANSWER_OUT_FORMAT,
+                                        i + 1,
+                                        question.getAnswer(i).get().getAnswerContext()
+                                )
+                        ).forEach(inOutService::writeString);
+            }
             String userAnswer = requestAnswer(question);
             return new SimpleResult(question, userAnswer);
         }catch (Exception e) {

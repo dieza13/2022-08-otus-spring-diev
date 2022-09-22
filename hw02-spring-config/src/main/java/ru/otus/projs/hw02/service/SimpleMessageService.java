@@ -13,12 +13,12 @@ public class SimpleMessageService implements MessageService {
     private final MessageSource messageSource;
 
     @Override
-    public String getMessage(String code, Object[] args, String defaultMessage) {
+    public String getMessage(String code, String defaultMessage, Object ... args) {
         return messageSource.getMessage(code, args, defaultMessage, Locale.getDefault());
     }
 
     @Override
-    public String getMessage(String code, Object[] args) throws NoSuchMessageException {
+    public String getMessage(String code, Object ... args) throws NoSuchMessageException {
         return messageSource.getMessage(code, args, Locale.getDefault());
     }
 
