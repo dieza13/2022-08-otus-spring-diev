@@ -1,11 +1,10 @@
 package ru.otus.projs.hw03.service;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.lang.Nullable;
 
 
-public interface MessageService extends MessageSource {
+public interface MessageService {
 
     String getMessage(String code, @Nullable String defaultMessage, @Nullable Object ... args);
 

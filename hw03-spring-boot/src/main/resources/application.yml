@@ -2,12 +2,6 @@ spring:
   messages:
     basename: "messages/message"
     encoding: "UTF-8"
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, beans, info
-
 
 ### params
 app:
@@ -15,5 +9,5 @@ app:
     testPassLimit: 4
     locale: ru_RU
   files:
-    csvQuestions: "/questions_${app.params.locale}.csv"
+    csvQuestionsFileName: "/questions_${app.params.locale}.csv"
 
