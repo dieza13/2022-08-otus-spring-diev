@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import ru.otus.projs.hw03.Util;
 import ru.otus.projs.hw03.config.AppParamsConfig;
 import ru.otus.projs.hw03.model.*;
@@ -26,7 +25,7 @@ class SimpleQuestionResultServiceTest {
     private SimpleQuestionResultService questionResultService;
     @MockBean
     private MessageService messageService;
-    @Autowired
+    @MockBean
     private AppParamsConfig props;
 
     @BeforeEach
@@ -41,7 +40,7 @@ class SimpleQuestionResultServiceTest {
 
     @Test
     void handleResult_OK() {
-        props.setTestPassLimit(2);
+        when(props.getPassLimit()).thenReturn(2);
         Question question1 = Util.createMultiAnswerQuestion(true);
         Question question2 = Util.createOneAnswerQuestion(true);
         SimpleResult result1 = new SimpleResult(question1, "1");

@@ -5,7 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
-import ru.otus.projs.hw03.config.AppParamsConfig;
+import ru.otus.projs.hw03.config.LocaleProvider;
 
 import java.util.Locale;
 
@@ -14,21 +14,21 @@ import java.util.Locale;
 public class SimpleMessageService implements MessageService {
 
     private final MessageSource messageSource;
-    private final AppParamsConfig paramsConfig;
+    private final LocaleProvider localeProvider;
 
     @Override
     public String getMessage(String code, String defaultMessage, Object ... args) {
-        return messageSource.getMessage(code, args, defaultMessage, Locale.getDefault());
+        return messageSource.getMessage(code, args, defaultMessage, localeProvider.getLocale());
     }
 
     @Override
     public String getMessage(String code, Object ... args) throws NoSuchMessageException {
-        return messageSource.getMessage(code, args, paramsConfig.getLocale());
+        return messageSource.getMessage(code, args, localeProvider.getLocale());
     }
 
     @Override
     public String getMessage(String code) throws NoSuchMessageException {
-        return messageSource.getMessage(code, new Object[]{}, paramsConfig.getLocale());
+        return messageSource.getMessage(code, new Object[]{}, localeProvider.getLocale());
     }
 
     @Override
