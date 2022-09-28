@@ -2,7 +2,7 @@ package ru.otus.projs.hw03.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import ru.otus.projs.hw03.config.AppParamsConfig;
+import ru.otus.projs.hw03.config.PassLimitProvider;
 import ru.otus.projs.hw03.exception.HandleTestResultException;
 import ru.otus.projs.hw03.model.QuestionResult;
 import ru.otus.projs.hw03.model.TestResult;
@@ -13,14 +13,14 @@ import java.util.List;
 public class SimpleQuestionResultService implements QuestionResultService {
 
     private final MessageService messageService;
-    private final AppParamsConfig paramConfig;
+    private final PassLimitProvider passLimitProvider;
 
     public SimpleQuestionResultService(
             MessageService messageService,
-            AppParamsConfig paramConfig
+            PassLimitProvider passLimitProvider
     ) {
         this.messageService = messageService;
-        this.paramConfig = paramConfig;
+        this.passLimitProvider = passLimitProvider;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class SimpleQuestionResultService implements QuestionResultService {
                     .count();
 
             stringResult.append(messageService.getMessage("text.title.student.test.result.output", (int)questionCount, (int)correctAnswersCount));
-            String testPassText = (paramConfig.getTestPassLimit() <= correctAnswersCount) ?
+            String testPassText = (passLimitProvider.getPassLimit() <= correctAnswersCount) ?
                     messageService.getMessage("text.title.student.test.passed") :
                     messageService.getMessage("text.title.student.test.notPassed");
-            if (paramConfig.getTestPassLimit() != null && paramConfig.getTestPassLimit() >= 0)
+            if (passLimitProvider.getPassLimit() != null && passLimitProvider.getPassLimit() >= 0)
                 stringResult.append(testPassText);
 
             return stringResult.toString();

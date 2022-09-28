@@ -5,7 +5,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import org.springframework.stereotype.Component;
-import ru.otus.projs.hw03.config.AppFilesConfig;
+import ru.otus.projs.hw03.config.CSVFileNameProvider;
 import ru.otus.projs.hw03.exception.QuestionNoAnswerException;
 import ru.otus.projs.hw03.exception.QuestionsResourceReadingException;
 import ru.otus.projs.hw03.factory.QuestionFactory;
@@ -26,20 +26,20 @@ public class CSVQuestionDAO implements QuestionDAO {
 
     private final QuestionFactory questionFactory;
     private final CSVParser parser;
-    private final AppFilesConfig filesConfig;
+    private final CSVFileNameProvider CSVFileNameProvider;
 
     public CSVQuestionDAO(
-            AppFilesConfig filesConfig,
+            CSVFileNameProvider CSVFileNameProvider,
             QuestionFactory questionFactory
     ) {
         this.questionFactory = questionFactory;
         parser = new CSVParserBuilder().withSeparator(';').build();
-        this.filesConfig = filesConfig;
+        this.CSVFileNameProvider = CSVFileNameProvider;
     }
 
     @Override
     public List<Question> findAll() {
-        return readFileToStringArray(filesConfig.getCsvQuestions())
+        return readFileToStringArray(CSVFileNameProvider.getFileName())
                 .stream()
                 .map(this::prepareQuestion)
                 .collect(Collectors.toList());
