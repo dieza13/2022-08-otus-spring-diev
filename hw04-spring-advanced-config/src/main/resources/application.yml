@@ -1,0 +1,13 @@
+spring:
+  messages:
+    basename: "messages/message"
+    encoding: "UTF-8"
+
+### params
+app:
+  params:
+    testPassLimit: 4
+    locale: ru_RU
+  files:
+    csvQuestionsFileName: "/questions_${app.params.locale}.csv"
+
