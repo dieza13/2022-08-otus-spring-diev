@@ -18,6 +18,7 @@
         <module>hw01-spring-framework</module>
         <module>hw02-spring-config</module>
         <module>hw03-spring-boot</module>
+        <module>hw04-spring-advanced-config</module>
     </modules>
 
 </project>
