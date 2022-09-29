@@ -38,3 +38,5 @@ out
 *.idea
 
 **/target/
+**/mvnw*
+**/.mvn/*

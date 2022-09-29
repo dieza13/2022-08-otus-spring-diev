@@ -1,0 +1,8 @@
+${AnsiBackground.BLUE}${AnsiColor.BRIGHT_MAGENTA}
+${AnsiColor.RED}_________  ____ ____________  ____ ___  _____ _______________________________
+${AnsiColor.RED}\_   ___ \|    |   \_   ___ \|    |   \/     \\______   \_   _____/\______   \
+${AnsiBackground.GREEN}/    \  \/|    |   /    \  \/|    |   /  \ /  \|    |  _/|    __)_  |       _/
+${AnsiBackground.GREEN}\     \___|    |  /\     \___|    |  /    Y    \    |   \|        \ |    |   \
+${AnsiBackground.GREEN} \______  /______/  \______  /______/\____|__  /______  /_______  / |____|_  /
+${AnsiBackground.241}       \/                 \/                \/       \/        \/         \/
+${AnsiColor.DEFAULT}${AnsiBackground.DEFAULT}
