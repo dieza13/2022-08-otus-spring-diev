@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import ru.otus.projs.hw05.model.Author;
 import ru.otus.projs.hw05.model.Book;
@@ -16,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao по работе с Book")
 @JdbcTest
-@Import({BookDaoJdbc.class, AuthorDaoJdbc.class, GenreDaoJdbc.class})
+@Import({BookDaoJdbc.class, AuthorDaoJdbc.class})
 class BookDaoJdbcTest {
 
     @Autowired
     private BookDaoJdbc bookDao;
 
-    @Autowired
+    @MockBean
     private AuthorDao authorDao;
 
     private static final int EXPECTED_ALL_BOOK_COUNT = 5;
@@ -41,13 +42,8 @@ class BookDaoJdbcTest {
     }
 
     @Test
-    void getByAuthor_BulgakovBooks() {
-        Author author = authorDao.findAll()
-                .stream()
-                .filter(a -> a.getLastName().equals("Булгаков"))
-                .findFirst()
-                .orElse(new Author());
-        List<Book> books = bookDao.getByAuthorId(author.getId());
+    void getByAuthor_id_1() {
+        List<Book> books = bookDao.getByAuthorId(1l);
         assertThat(books.size()).isEqualTo(3);
     }
 

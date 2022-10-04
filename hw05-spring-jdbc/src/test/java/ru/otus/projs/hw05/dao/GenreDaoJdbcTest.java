@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import ru.otus.projs.hw05.model.Author;
 import ru.otus.projs.hw05.model.Genre;
 
 import java.util.List;
@@ -15,11 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao по работе с Genre")
 @JdbcTest
-@Import({AuthorDaoJdbc.class,BookDaoJdbc.class, GenreDaoJdbc.class})
+@Import({GenreDaoJdbc.class})
 class GenreDaoJdbcTest {
 
-    @Autowired
-    private BookDaoJdbc bookDao;
     @Autowired
     private GenreDaoJdbc genreDao;
 
@@ -51,16 +52,21 @@ class GenreDaoJdbcTest {
     }
 
     @Test
-    void delete() {
+    void delete_withId_1_andLinkedBooksException() {
 
         Genre genre = genreDao.getById(1l);
-        long bookCount = bookDao.findAll().stream().filter(b -> b.getGenre().getId() == 1).count();
-        assertThat(bookCount).isGreaterThan(0);
         assertThat(genre).isNotNull();
-        genreDao.delete(genre.getId());
-        assertThatThrownBy(() -> genreDao.getById(1l));
-        bookCount = bookDao.findAll().stream().filter(b -> b.getGenre().getId() == 1).count();
-        assertThat(bookCount).isEqualTo(0);
+        assertThatThrownBy(() -> genreDao.delete(genre.getId())).isInstanceOf(DataIntegrityViolationException.class);
+        assertThat(genreDao.getById(1l)).isNotNull();
 
+    }
+
+    @Test
+    void delete_without_books() {
+        Genre horor = new Genre(null, "Horor");
+        Genre savedHoror = genreDao.save(horor);
+        assertThat(savedHoror.getId()).isGreaterThan(0);
+        genreDao.delete(savedHoror.getId());
+        assertThatThrownBy(()->genreDao.getById(savedHoror.getId())).isInstanceOf(EmptyResultDataAccessException.class);
     }
 }

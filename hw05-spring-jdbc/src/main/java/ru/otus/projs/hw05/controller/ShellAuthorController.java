@@ -14,13 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShellAuthorController {
 
-    private static final List<String> commands = List.of(
-            Commands.commands + "\n",
-            Commands.all + "\n",
-            Commands.byId + "\n",
-            Commands.save + "\n",
-            Commands.delete + "\n"
-    );
     private static final String AUTHOR_IN_JSON_FORMAT = "Введите автора в формате json:";
     private static final String AUTHOR_WAS_DELETED = "Автор с id {0} был удален";
 
@@ -28,17 +21,17 @@ public class ShellAuthorController {
     private final CallWithConvertInputService callWrapperService;
 
 
-    @ShellMethod(key = Commands.all)
+    @ShellMethod(key = "author.all")
     public List<Author> findAll() {
         return authorService.findAll();
     }
 
-    @ShellMethod(key = Commands.byId)
+    @ShellMethod(key = "author.byId")
     public Author getAuthorById(@ShellOption long authorId) {
         return authorService.getAuthorById(authorId);
     }
 
-    @ShellMethod(key = Commands.save)
+    @ShellMethod(key = "author.save")
     public Author saveAuthor() {
 
         return callWrapperService.callWithConvertInput(
@@ -49,24 +42,10 @@ public class ShellAuthorController {
 
     }
 
-    @ShellMethod(key = Commands.delete)
+    @ShellMethod(key = "author.delete")
     public String deleteAuthor(@ShellOption long authorId) {
         authorService.deleteAuthor(authorId);
         return String.format(AUTHOR_WAS_DELETED, authorId);
-    }
-
-    @ShellMethod(key = Commands.commands)
-    public List<String> getAuthorCommands() {
-        return commands;
-    }
-
-
-    private class Commands {
-        public static final String commands = "author";
-        public static final String all = "author.all";
-        public static final String byId = "author.byId";
-        public static final String save = "author.save";
-        public static final String delete = "author.delete";
     }
 
 }

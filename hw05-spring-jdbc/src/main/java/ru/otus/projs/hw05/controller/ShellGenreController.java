@@ -14,13 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShellGenreController {
 
-    private static final List<String> commands = List.of(
-            Commands.commands + "\n",
-            Commands.all + "\n",
-            Commands.byId + "\n",
-            Commands.save + "\n",
-            Commands.delete + "\n"
-    );
     private static final String GENRE_IN_JSON_FORMAT = "Введите жанр в формате json:";
     private static final String GENRE_WAS_DELETED = "Жанр с id {0} был удален";
 
@@ -28,17 +21,17 @@ public class ShellGenreController {
     private final CallWithConvertInputService callWrapperService;
 
 
-    @ShellMethod(key = Commands.all)
+    @ShellMethod(key = "genre.all")
     public List<Genre> findAll() {
         return genreService.findAll();
     }
 
-    @ShellMethod(key = Commands.byId)
+    @ShellMethod(key = "genre.byId")
     public Genre getGenreById(@ShellOption long genreId) {
         return genreService.getGenreById(genreId);
     }
 
-    @ShellMethod(key = Commands.save)
+    @ShellMethod(key = "genre.save")
     public Genre saveGenre() {
 
         return callWrapperService.callWithConvertInput(
@@ -49,24 +42,10 @@ public class ShellGenreController {
 
     }
 
-    @ShellMethod(key = Commands.delete)
+    @ShellMethod(key = "genre.delete")
     public String deleteGenre(@ShellOption long genreId) {
         genreService.deleteGenre(genreId);
         return String.format(GENRE_WAS_DELETED, genreId);
-    }
-
-    @ShellMethod(key = Commands.commands)
-    public List<String> getGenreCommands() {
-        return commands;
-    }
-
-
-    private class Commands {
-        public static final String commands = "genre";
-        public static final String all = "genre.all";
-        public static final String byId = "genre.byId";
-        public static final String save = "genre.save";
-        public static final String delete = "genre.delete";
     }
 
 }

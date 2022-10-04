@@ -7,13 +7,14 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class Author {
 
+    private final Long id;
+    private final String name;
+    private final String lastName;
+
     public Author() {
         id = null;
         name = null;
         lastName = null;
     }
 
-    private final Long id;
-    private final String name;
-    private final String lastName;
 }
