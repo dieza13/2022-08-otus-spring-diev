@@ -52,14 +52,6 @@ public class GenreDaoJdbc implements GenreDao {
         jdbc.update("delete from genre where id = :id", key);
     }
 
-    private MapSqlParameterSource convertAuthor2Map(Author author) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", author.getId());
-        params.addValue("name", author.getName());
-        params.addValue("lastname", author.getLastName());
-        return params;
-    }
-
     private Genre insertGenre(
             Genre genre,
             MapSqlParameterSource params,

@@ -134,7 +134,7 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @RequiredArgsConstructor
-    private class BookByAuthorMapper implements RowMapper<Book> {
+    private static class BookByAuthorMapper implements RowMapper<Book> {
 
         private final Author author;
 
