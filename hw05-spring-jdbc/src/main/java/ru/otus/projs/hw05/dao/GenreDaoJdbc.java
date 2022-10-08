@@ -52,23 +52,12 @@ public class GenreDaoJdbc implements GenreDao {
         jdbc.update("delete from genre where id = :id", key);
     }
 
-    private Genre insertGenre(
-            Genre genre,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
-    ) {
-        jdbc.update(
-                "insert into genre(name) values (:name)",
-                params,
-                kh
-        );
+    private Genre insertGenre(Genre genre, MapSqlParameterSource params, GeneratedKeyHolder kh) {
+        jdbc.update("insert into genre(name) values (:name)", params, kh);
         return new Genre(kh.getKey().longValue(), genre.getName());
     }
 
-    private Genre updateGenre(
-            Genre genre,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
+    private Genre updateGenre(Genre genre, MapSqlParameterSource params, GeneratedKeyHolder kh
     ) {
         jdbc.update("update genre set name = :name where id = :id", params);
         return genre;

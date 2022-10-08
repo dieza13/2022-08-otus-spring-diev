@@ -77,29 +77,12 @@ public class BookDaoJdbc implements BookDao {
         jdbc.update("delete from book where id = :id", Map.of("id", id));
     }
 
-    private Book insertBook(
-            Book book,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
-    ) {
-        jdbc.update(
-                "insert into book(name, author_id, genre_id) values (:name, :author_id, :genre_id)",
-                params,
-                kh
-        );
-        return new Book(
-                kh.getKey().longValue(),
-                book.getName(),
-                book.getAuthor(),
-                book.getGenre()
-        );
+    private Book insertBook(Book book, MapSqlParameterSource params, GeneratedKeyHolder kh) {
+        jdbc.update("insert into book(name, author_id, genre_id) values (:name, :author_id, :genre_id)", params, kh);
+        return new Book(kh.getKey().longValue(), book.getName(), book.getAuthor(), book.getGenre());
     }
 
-    private Book updateBook(
-            Book book,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
-    ) {
+    private Book updateBook(Book book, MapSqlParameterSource params, GeneratedKeyHolder kh) {
         jdbc.update("update book set name = :name, author_id = :author_id, genre_id = :genre_id where id = :id", params);
         return book;
     }

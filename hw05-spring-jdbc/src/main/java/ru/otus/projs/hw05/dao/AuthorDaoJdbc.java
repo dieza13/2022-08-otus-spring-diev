@@ -35,7 +35,6 @@ public class AuthorDaoJdbc implements AuthorDao {
         GeneratedKeyHolder kh = new GeneratedKeyHolder();
         MapSqlParameterSource params = convertAuthor2Map(author);
 
-
         if (author.getId() == null || author.getId() <= 0) {
             return insertAuthor(author, params, kh);
         } else {
@@ -55,24 +54,12 @@ public class AuthorDaoJdbc implements AuthorDao {
         params.addValue("lastname", author.getLastName());
         return params;
     }
-    private Author insertAuthor(
-            Author author,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
-    ) {
-        jdbc.update(
-                "insert into author(name, lastname) values (:name, :lastname)",
-                params,
-                kh
-        );
+    private Author insertAuthor(Author author, MapSqlParameterSource params, GeneratedKeyHolder kh) {
+        jdbc.update("insert into author(name, lastname) values (:name, :lastname)", params, kh);
         return new Author(kh.getKey().longValue(), author.getName(), author.getLastName());
     }
 
-    private Author updateAuthor(
-            Author author,
-            MapSqlParameterSource params,
-            GeneratedKeyHolder kh
-    ) {
+    private Author updateAuthor(Author author, MapSqlParameterSource params, GeneratedKeyHolder kh) {
         jdbc.update("update author set name = :name, lastname = :lastname where id = :id", params);
         return author;
     }
