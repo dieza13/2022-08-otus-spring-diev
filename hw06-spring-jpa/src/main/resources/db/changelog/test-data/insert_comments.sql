@@ -1,0 +1,11 @@
+insert into comment(book_id, comment) values (1,'Читал');
+insert into comment(book_id, comment) values (1,'Понравилось');
+insert into comment(book_id, comment) values (2,'Читал');
+insert into comment(book_id, comment) values (2,'Прикольно');
+insert into comment(book_id, comment) values (3,'Читал');
+insert into comment(book_id, comment) values (3,'Интересно');
+insert into comment(book_id, comment) values (4,'Читал');
+insert into comment(book_id, comment) values (4,'Хорошо');
+insert into comment(book_id, comment) values (4,'Интересно');
+insert into comment(book_id, comment) values (5,'Гуд');
+insert into comment(book_id, comment) values (5,'Норм');
