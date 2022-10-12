@@ -11,14 +11,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter @Setter
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name = "book_comment")
+public class BookComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "comment")
     private String comment;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book book;
 
     public String toString() {
         return "Comment(id=" + id + ", comment=" + comment + ")";

@@ -23,9 +23,7 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> findAll() {
         try {
-            List<Book> books = bookRepository.findAll();
-            books.get(0).getComments().size();
-            return books;
+            return bookRepository.findAll();
         } catch (Exception e) {
             throw new FindAllBookException(e);
         }
@@ -35,10 +33,7 @@ public class SimpleBookService implements BookService {
     @Override
     public Book getBookById(Long id) {
         try {
-            Book book = bookRepository.getById(id).orElseThrow();
-            book.getAuthor().getId();
-            book.getGenre().getId();
-            return book;
+            return bookRepository.getById(id).orElseThrow();
         } catch (Exception e) {
             throw new GetBookByIdException(id, e);
         }
@@ -68,9 +63,7 @@ public class SimpleBookService implements BookService {
     @Override
     public List<Book> getBookByAuthor(long id) {
         try {
-            List<Book> books = bookRepository.getByAuthorId(id);
-            books.get(0).getComments().size();
-            return books;
+            return bookRepository.getByAuthorId(id);
         } catch (Exception e) {
             throw new GetBookByAuthorException(id, e);
         }

@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.projs.hw06.model.Author;
+import ru.otus.projs.hw06.model.Book;
 
 import javax.persistence.PersistenceException;
 
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Репозиторий по работе с Author")
 @DataJpaTest
-@Import(AuthorRepositoryJpa.class)
+@Import({AuthorRepositoryJpa.class})
 class AuthorRepositoryJpaTest {
 
 
@@ -71,7 +72,10 @@ class AuthorRepositoryJpaTest {
 
         var author2Del = em.find(Author.class,WANTED_AUTHOR_ID);
         assertThat(author2Del).isNotNull();
-        assertThatThrownBy(() -> authorRepo.delete(WANTED_AUTHOR_ID)).isInstanceOf(PersistenceException.class);
+        em.detach(author2Del);
+        authorRepo.delete(WANTED_AUTHOR_ID);
+        assertThat(em.find(Author.class,WANTED_AUTHOR_ID)).isNull();
+
 
     }
 }

@@ -2,6 +2,7 @@ package ru.otus.projs.hw06.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.otus.projs.hw06.dto.BookWithComments;
 import ru.otus.projs.hw06.model.Book;
 
 import javax.persistence.EntityGraph;
@@ -21,6 +22,7 @@ public class BookRepositoryJpa implements BookRepository {
 
     @PersistenceContext
     private final EntityManager entityManager;
+    private final BookCommentRepository commentRepository;
 
     @Override
     public List<Book> findAll() {
@@ -33,6 +35,17 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public Optional<Book> getById(Long id) {
         return Optional.ofNullable(entityManager.find(Book.class, id));
+    }
+
+    @Override
+    public BookWithComments getByIdWithComments(Long id) {
+        Optional<Book> book = getById(id);
+        if (book.isPresent()) {
+            return new BookWithComments(book.get(),
+                    commentRepository.findAllByBookId(book.get().getId()));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -58,8 +71,6 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public void delete(Long id) {
-        Query query = entityManager.createQuery("delete from Book a where a.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        getById(id).ifPresent(entityManager::remove);
     }
 }

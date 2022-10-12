@@ -9,10 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.projs.hw06.model.Genre;
 
-import javax.persistence.PersistenceException;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Репозиторий по работе с Genre")
 @DataJpaTest
@@ -69,7 +66,9 @@ class GenreRepositoryJpaTest {
 
         var genre2Del = em.find(Genre.class, WANTED_GENRE_ID);
         assertThat(genre2Del).isNotNull();
-        assertThatThrownBy(() -> genreRepo.delete(WANTED_GENRE_ID)).isInstanceOf(PersistenceException.class);
+        em.detach(genre2Del);
+        genreRepo.delete(WANTED_GENRE_ID);
+        assertThat(em.find(Genre.class,WANTED_GENRE_ID)).isNull();
 
     }
 }

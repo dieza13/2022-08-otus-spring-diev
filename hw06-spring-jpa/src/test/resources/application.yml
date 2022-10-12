@@ -3,7 +3,7 @@ spring:
     url: jdbc:h2:mem:test-library
   liquibase:
     contexts: test
-    change-log: "classpath:/db/changelog/changelog-master-test.yml"
+    change-log: "classpath:/db/changelog/changelog-master-test.yaml"
   jpa:
     generate-ddl: false
     hibernate:

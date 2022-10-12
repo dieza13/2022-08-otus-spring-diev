@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.projs.hw06.model.Comment;
+import ru.otus.projs.hw06.model.BookComment;
 import ru.otus.projs.hw06.service.CallWithConvertInputService;
 import ru.otus.projs.hw06.service.CommentService;
 
@@ -22,20 +22,20 @@ public class ShellCommentController {
 
 
     @ShellMethod(key = "comment.allByBookId")
-    public List<Comment> findAllByBookId(@ShellOption long bookId) {
+    public List<BookComment> findAllByBookId(@ShellOption long bookId) {
         return commentService.findAllByBookId(bookId);
     }
 
     @ShellMethod(key = "comment.byId")
-    public Comment getCommentById(@ShellOption long commentId) {
+    public BookComment getCommentById(@ShellOption long commentId) {
         return commentService.getCommentById(commentId);
     }
 
     @ShellMethod(key = "comment.save")
-    public Comment saveComment() {
+    public BookComment saveComment() {
 
         return callWrapperService.callWithConvertInput(
-                Comment.class,
+                BookComment.class,
                 COMMENT_IN_JSON_FORMAT,
                 commentService::saveComment
         );

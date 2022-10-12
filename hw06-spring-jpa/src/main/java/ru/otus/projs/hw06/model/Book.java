@@ -9,7 +9,6 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ru.otus.projs.hw06.model.Book.BOOK_AUTHOR_GENRE_GRAPH;
 
@@ -39,13 +38,4 @@ public class Book {
     @JoinColumn(name = "genre_id", referencedColumnName = "id")
     private Genre genre;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private List<Comment> comments;
-
-    public String toString() {
-        return "Book(id=" + id + ", name=" + name + ", author=" + author + ", genre=" + genre + ", comments=[" +
-                comments.stream().map(Comment::toString).collect(Collectors.joining(",")) + "])";
-    }
 }

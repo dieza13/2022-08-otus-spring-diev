@@ -4,6 +4,9 @@ spring:
     driverClassName: org.h2.Driver
     username: admin
     password: qwerty
+  liquibase:
+    enabled: true
+    change-log: "classpath:/db/changelog/changelog-master.yml"
   jpa:
     generate-ddl: false
     hibernate:
@@ -17,5 +20,4 @@ spring:
       path: /h2
       settings:
           web-allow-others: true
-  liquibase:
-    change-log: "classpath:/db/changelog/changelog-master.yml"
+

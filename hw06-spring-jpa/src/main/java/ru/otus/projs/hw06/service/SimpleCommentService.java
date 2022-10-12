@@ -7,8 +7,8 @@ import ru.otus.projs.hw06.exception.service.DeleteCommentException;
 import ru.otus.projs.hw06.exception.service.FindAllCommentByIdException;
 import ru.otus.projs.hw06.exception.service.GetCommentByIdException;
 import ru.otus.projs.hw06.exception.service.SaveCommentException;
-import ru.otus.projs.hw06.model.Comment;
-import ru.otus.projs.hw06.repository.CommentRepository;
+import ru.otus.projs.hw06.model.BookComment;
+import ru.otus.projs.hw06.repository.BookCommentRepository;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SimpleCommentService implements CommentService {
 
-    private final CommentRepository commentRepository;
+    private final BookCommentRepository commentRepository;
 
     @Transactional(readOnly = true)
     @Override
-    public List<Comment> findAllByBookId(Long id) {
+    public List<BookComment> findAllByBookId(Long id) {
         try {
             return commentRepository.findAllByBookId(id);
         } catch (Exception e) {
@@ -30,7 +30,7 @@ public class SimpleCommentService implements CommentService {
 
     @Transactional(readOnly = true)
     @Override
-    public Comment getCommentById(Long id) {
+    public BookComment getCommentById(Long id) {
         try {
             return commentRepository.getById(id).orElseThrow();
         } catch (Exception e) {
@@ -40,11 +40,11 @@ public class SimpleCommentService implements CommentService {
 
     @Transactional
     @Override
-    public Comment saveComment(Comment comment) {
+    public BookComment saveComment(BookComment bookComment) {
         try {
-            return commentRepository.save(comment);
+            return commentRepository.save(bookComment);
         } catch (Exception e) {
-            throw new SaveCommentException(comment, e);
+            throw new SaveCommentException(bookComment, e);
         }
     }
 

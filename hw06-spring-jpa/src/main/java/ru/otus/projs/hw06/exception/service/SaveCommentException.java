@@ -1,16 +1,16 @@
 package ru.otus.projs.hw06.exception.service;
 
 import lombok.Getter;
-import ru.otus.projs.hw06.model.Comment;
+import ru.otus.projs.hw06.model.BookComment;
 
 @Getter
 public class SaveCommentException extends RuntimeException{
 
-    private final Comment comment;
+    private final BookComment bookComment;
 
-    public SaveCommentException(Comment comment, Throwable ex) {
+    public SaveCommentException(BookComment bookComment, Throwable ex) {
         super(ex);
-        this.comment = comment;
+        this.bookComment = bookComment;
     }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.projs.hw06.exception.service.*;
 import ru.otus.projs.hw06.model.Author;
 import ru.otus.projs.hw06.model.Book;
-import ru.otus.projs.hw06.model.Comment;
+import ru.otus.projs.hw06.model.BookComment;
 import ru.otus.projs.hw06.model.Genre;
 import ru.otus.projs.hw06.repository.BookRepository;
 
@@ -106,7 +106,6 @@ class SimpleBookServiceTest {
     private Book createBook(long id) {
         return new Book(1l, "Book" + id,
                 new Author(id, "name" + id, "lastname" + id),
-                new Genre(id, "Genre"),
-                List.of(new Comment(id, "comment" + id)));
+                new Genre(id, "Genre"));
     }
 }
