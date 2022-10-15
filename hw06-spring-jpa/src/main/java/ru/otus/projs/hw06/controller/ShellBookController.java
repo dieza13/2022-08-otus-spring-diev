@@ -1,12 +1,12 @@
-package ru.otus.projs.hw05.controller;
+package ru.otus.projs.hw06.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.projs.hw05.model.Book;
-import ru.otus.projs.hw05.service.BookService;
-import ru.otus.projs.hw05.service.CallWithConvertInputService;
+import ru.otus.projs.hw06.model.Book;
+import ru.otus.projs.hw06.service.BookService;
+import ru.otus.projs.hw06.service.CallWithConvertInputService;
 
 import java.util.List;
 
@@ -34,11 +34,7 @@ public class ShellBookController {
     @ShellMethod(key = "book.save")
     public Book saveBook() {
 
-        return callWrapperService.callWithConvertInput(
-                Book.class,
-                BOOK_IN_JSON_FORMAT,
-                bookService::saveBook
-        );
+        return callWrapperService.callWithConvertInput(Book.class, BOOK_IN_JSON_FORMAT, bookService::saveBook);
 
     }
 

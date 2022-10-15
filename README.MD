@@ -13,3 +13,4 @@ spring-2022-08
 Работа 3: hw03-spring-boot  
 Работа 4: hw04-spring-advanced-config  
 Работа 5: hw05-spring-jdbc  
+Работа 6: hw06-spring-jpa 

@@ -20,6 +20,7 @@
         <module>hw03-spring-boot</module>
         <module>hw04-spring-advanced-config</module>
         <module>hw05-spring-jdbc</module>
+        <module>hw06-spring-jpa</module>
     </modules>
 
 </project>
