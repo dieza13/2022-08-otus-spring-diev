@@ -15,7 +15,7 @@ import java.util.List;
 public class ShellBookController {
 
     private static final String BOOK_IN_JSON_FORMAT = "Введите книгу в формате json:";
-    private static final String BOOK_WAS_DELETED = "Книга с id {0} была удалена";
+    private static final String BOOK_WAS_DELETED = "Книга с id %d была удалена";
 
     private final BookService bookService;
     private final CallWithConvertInputService callWrapperService;
@@ -34,11 +34,7 @@ public class ShellBookController {
     @ShellMethod(key = "book.save")
     public Book saveBook() {
 
-        return callWrapperService.callWithConvertInput(
-                Book.class,
-                BOOK_IN_JSON_FORMAT,
-                bookService::saveBook
-        );
+        return callWrapperService.callWithConvertInput(Book.class, BOOK_IN_JSON_FORMAT, bookService::saveBook);
 
     }
 

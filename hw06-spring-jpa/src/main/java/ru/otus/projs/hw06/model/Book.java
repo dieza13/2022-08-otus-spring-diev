@@ -38,4 +38,9 @@ public class Book {
     @JoinColumn(name = "genre_id", referencedColumnName = "id")
     private Genre genre;
 
+    public String toString() {
+        return "Book(id=" + id + ", name=" + name + ", author=" + author + ", genre=" + genre;
+    }
+
+
 }

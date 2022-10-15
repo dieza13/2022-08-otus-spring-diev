@@ -15,7 +15,7 @@ import java.util.List;
 public class ShellGenreController {
 
     private static final String GENRE_IN_JSON_FORMAT = "Введите жанр в формате json:";
-    private static final String GENRE_WAS_DELETED = "Жанр с id {0} был удален";
+    private static final String GENRE_WAS_DELETED = "Жанр с id %d был удален";
 
     private final GenreService genreService;
     private final CallWithConvertInputService callWrapperService;
@@ -34,11 +34,7 @@ public class ShellGenreController {
     @ShellMethod(key = "genre.save")
     public Genre saveGenre() {
 
-        return callWrapperService.callWithConvertInput(
-                Genre.class,
-                GENRE_IN_JSON_FORMAT,
-                genreService::saveGenre
-        );
+        return callWrapperService.callWithConvertInput(Genre.class, GENRE_IN_JSON_FORMAT, genreService::saveGenre);
 
     }
 

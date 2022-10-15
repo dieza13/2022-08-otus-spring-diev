@@ -40,12 +40,8 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public BookWithComments getByIdWithComments(Long id) {
         Optional<Book> book = getById(id);
-        if (book.isPresent()) {
-            return new BookWithComments(book.get(),
-                    commentRepository.findAllByBookId(book.get().getId()));
-        } else {
-            return null;
-        }
+        return book.map(value -> new BookWithComments(value,
+                commentRepository.findAllByBookId(value.getId()))).orElse(null);
     }
 
     @Override

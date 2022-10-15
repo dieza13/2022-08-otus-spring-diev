@@ -15,7 +15,7 @@ import java.util.List;
 public class ShellCommentController {
 
     private static final String COMMENT_IN_JSON_FORMAT = "Введите комментарий в формате json:";
-    private static final String COMMENT_WAS_DELETED = "Комментарий с id {0} был удален";
+    private static final String COMMENT_WAS_DELETED = "Комментарий с id %d был удален";
 
     private final CommentService commentService;
     private final CallWithConvertInputService callWrapperService;
@@ -34,11 +34,8 @@ public class ShellCommentController {
     @ShellMethod(key = "comment.save")
     public BookComment saveComment() {
 
-        return callWrapperService.callWithConvertInput(
-                BookComment.class,
-                COMMENT_IN_JSON_FORMAT,
-                commentService::saveComment
-        );
+        return callWrapperService.callWithConvertInput(BookComment.class, COMMENT_IN_JSON_FORMAT,
+                commentService::saveComment);
 
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 public class ShellAuthorController {
 
     private static final String AUTHOR_IN_JSON_FORMAT = "Введите автора в формате json:";
-    private static final String AUTHOR_WAS_DELETED = "Автор с id {0} был удален";
+    private static final String AUTHOR_WAS_DELETED = "Автор с id %d был удален";
 
     private final AuthorService authorService;
     private final CallWithConvertInputService callWrapperService;
@@ -34,11 +34,7 @@ public class ShellAuthorController {
     @ShellMethod(key = "author.save")
     public Author saveAuthor() {
 
-        return callWrapperService.callWithConvertInput(
-                Author.class,
-                AUTHOR_IN_JSON_FORMAT,
-                authorService::saveAuthor
-        );
+        return callWrapperService.callWithConvertInput(Author.class, AUTHOR_IN_JSON_FORMAT, authorService::saveAuthor);
 
     }
 
