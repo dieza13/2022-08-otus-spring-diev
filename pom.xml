@@ -21,6 +21,7 @@
         <module>hw04-spring-advanced-config</module>
         <module>hw05-spring-jdbc</module>
         <module>hw06-spring-jpa</module>
+        <module>hw07-spring-data-jpa</module>
     </modules>
 
 </project>
