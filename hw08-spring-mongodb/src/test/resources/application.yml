@@ -1,0 +1,17 @@
+spring:
+  mongodb:
+    embedded:
+      version: 3.5.5
+  data:
+    mongodb:
+      port: 0
+      database: test_library_db
+mongock:
+  runner-type: InitializingBean
+  change-logs-scan-package:
+    - ru.otus.projs.hw08.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
