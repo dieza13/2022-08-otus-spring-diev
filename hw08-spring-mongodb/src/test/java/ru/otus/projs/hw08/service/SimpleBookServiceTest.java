@@ -127,7 +127,7 @@ class SimpleBookServiceTest {
     }
 
     private Book createBook(String id) {
-        return new Book("1", "Book" + id,
+        return new Book(id, "Book" + id,
                 new Author(id, "name" + id, "lastname" + id),
                 new Genre(id, "Genre"));
     }

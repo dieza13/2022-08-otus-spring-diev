@@ -42,6 +42,12 @@ public class SimpleAuthorService implements AuthorService {
     @Override
     public Author saveAuthor(Author author) {
         try {
+            if (author.getId() != null) {
+                // можно так
+                // mongoTemplate.updateMulti(query(where("author.id").is(author.getId())), update("author", author), Book.class);
+                // но воспользуемся методом репозитория
+                bookRepository.updateAllByAuthorId(author.getId(), author);
+            }
             return authorRepository.save(author);
         } catch (Exception e) {
             throw new SaveAuthorException(author, e);

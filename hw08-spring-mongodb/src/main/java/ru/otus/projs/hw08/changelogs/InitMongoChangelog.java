@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 @ChangeLog(order = "init-task")
 public class InitMongoChangelog {
 
-    private List<Author> authors = new ArrayList<>();
-    private List<Genre> genres = new ArrayList<>();
-    private List<Book> books = new ArrayList<>();
+    private final List<Author> authors = new ArrayList<>();
+    private final List<Genre> genres = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
 
     @ChangeSet(order = "000", id = "dropDB", author = "diev", runAlways = true)
     public void dropDB(MongoDatabase database){

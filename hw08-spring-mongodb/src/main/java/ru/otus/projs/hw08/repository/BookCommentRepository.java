@@ -9,5 +9,6 @@ import java.util.List;
 public interface BookCommentRepository extends MongoRepository<BookComment, String> {
 
     List<BookComment> getByBookId(String id);
+    void deleteByBookId(String id);
 
 }

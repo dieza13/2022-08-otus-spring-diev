@@ -2,14 +2,13 @@ package ru.otus.projs.hw08.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.projs.hw08.model.Genre;
-import ru.otus.projs.hw08.repository.BookRepository;
-import ru.otus.projs.hw08.repository.GenreRepository;
 import ru.otus.projs.hw08.exception.DeleteGenreException;
 import ru.otus.projs.hw08.exception.FindAllGenreException;
 import ru.otus.projs.hw08.exception.GetGenreByIdException;
 import ru.otus.projs.hw08.exception.SaveGenreException;
+import ru.otus.projs.hw08.model.Genre;
+import ru.otus.projs.hw08.repository.BookRepository;
+import ru.otus.projs.hw08.repository.GenreRepository;
 
 import java.util.List;
 
@@ -39,10 +38,12 @@ public class SimpleGenreService implements GenreService {
         }
     }
 
-    @Transactional
     @Override
     public Genre saveGenre(Genre genre) {
         try {
+            if (genre.getId() != null) {
+                bookRepository.updateAllByGenreId(genre.getId(), genre);
+            }
             return genreRepository.save(genre);
         } catch (Exception e) {
             throw new SaveGenreException(genre, e);

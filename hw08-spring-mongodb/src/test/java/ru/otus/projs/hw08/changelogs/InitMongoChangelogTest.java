@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 @ChangeLog(order = "init-test")
 public class InitMongoChangelogTest {
 
-    private List<Author> authors = new ArrayList<>();
-    private List<Genre> genres = new ArrayList<>();
-    private List<Book> books = new ArrayList<>();
+    private final List<Author> authors = new ArrayList<>();
+    private final List<Genre> genres = new ArrayList<>();
+    private final List<Book> books = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "initAuthorsTest", author = "diev", runAlways = true)
     public void initAuthors(AuthorRepository repository){

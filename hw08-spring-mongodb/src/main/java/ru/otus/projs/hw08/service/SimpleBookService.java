@@ -2,7 +2,6 @@ package ru.otus.projs.hw08.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.projs.hw08.dto.BookWithComments;
 import ru.otus.projs.hw08.model.Book;
 import ru.otus.projs.hw08.model.BookComment;
@@ -37,7 +36,6 @@ public class SimpleBookService implements BookService {
         }
     }
 
-    @Transactional
     @Override
     public Book saveBook(Book book) {
         try {
@@ -50,6 +48,7 @@ public class SimpleBookService implements BookService {
     @Override
     public void deleteBook(String id) {
         try {
+            commentRepository.deleteByBookId(id);
             bookRepository.deleteById(id);
         } catch (Exception e) {
             throw new DeleteBookException(id, e);
