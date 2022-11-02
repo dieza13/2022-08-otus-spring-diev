@@ -40,9 +40,12 @@ class AuthorRepositoryTest {
 
         var saveAuthor = authorRepo.save(new Author("9", "999", "999"));
         assertThat(saveAuthor.getId()).isNotNull();
-        var searchedAuthor = authorRepo.findById(saveAuthor.getId());
 
-        assertThat(searchedAuthor.get()).isNotNull()
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(saveAuthor.getId()));
+        var searchedAuthor = mongoTemplate.find(query, Author.class);
+
+        assertThat(searchedAuthor.get(0)).isNotNull()
                 .matches(b -> b.getName().equals(saveAuthor.getName()))
                 .matches(b -> b.getLastName().equals(saveAuthor.getLastName()));
 
