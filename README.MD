@@ -15,4 +15,4 @@ spring-2022-08
 Работа 5: hw05-spring-jdbc  
 Работа 6: hw06-spring-jpa  
 Работа 7: hw07-spring-data-jpa  
-Работа 8: hw07-spring-mongodb 
+Работа 8: hw08-spring-mongodb 
