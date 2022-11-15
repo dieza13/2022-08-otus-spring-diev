@@ -49,7 +49,7 @@ class BookControllerTest {
     @Test
     void bookList_return2Books() throws Exception {
 
-        List<Book> books = List.of(createBook(11l), createBook(12l));
+        List<Book> books = List.of(createBook(11L), createBook(12L));
         when(bookService.findAll()).thenReturn(books);
         when(formatter.authorFormat(any())).thenReturn("SomeAuthor");
 
@@ -63,10 +63,10 @@ class BookControllerTest {
     @Test
     void editBookPage_getBookWithId1() throws Exception {
 
-        Book book = createBook(1l);
+        Book book = createBook(1L);
         when(bookService.getBookById(anyLong())).thenReturn(book);
-        when(authorService.findAll()).thenReturn(createAuthorList(11l));
-        when(genreService.findAll()).thenReturn(createGenreList(11l));
+        when(authorService.findAll()).thenReturn(createAuthorList(11L));
+        when(genreService.findAll()).thenReturn(createGenreList(11L));
 
         mvc.perform(get("/book/1?readOnly=false"))
                 .andExpect(status().isOk())
@@ -79,8 +79,8 @@ class BookControllerTest {
     @Test
     void editBookPage_onCreateNew() throws Exception {
 
-        when(authorService.findAll()).thenReturn(createAuthorList(11l));
-        when(genreService.findAll()).thenReturn(createGenreList(11l));
+        when(authorService.findAll()).thenReturn(createAuthorList(11L));
+        when(genreService.findAll()).thenReturn(createGenreList(11L));
 
         mvc.perform(get("/book/0?readOnly=false"))
                 .andExpect(status().isOk())

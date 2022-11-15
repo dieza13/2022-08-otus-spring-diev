@@ -32,7 +32,7 @@ public class GenreController {
     }
 
     @PostMapping(path = "/genre")
-    public String saveBook(@Valid Genre genre, BindingResult bindingResult) {
+    public String saveGenre(@Valid Genre genre, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "genre-edit";
         }

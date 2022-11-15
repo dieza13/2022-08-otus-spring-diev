@@ -32,7 +32,7 @@ public class AuthorController {
     }
 
     @PostMapping(path = "/author")
-    public String saveBook(@Valid Author author, BindingResult bindingResult) {
+    public String saveAuthor(@Valid Author author, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "author-edit";
         }
