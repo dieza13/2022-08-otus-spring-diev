@@ -17,3 +17,4 @@ spring-2022-08
 Работа 7: hw07-spring-data-jpa  
 Работа 8: hw08-spring-mongodb  
 Работа 9: hw09-spring-mvc  
+Работа 10: hw10-spring-modern-mvc  
