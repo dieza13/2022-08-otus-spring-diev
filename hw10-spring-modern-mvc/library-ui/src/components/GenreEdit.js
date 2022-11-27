@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useParams } from "react-router-dom";
+import GenreService from '../services/GenreService';
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
@@ -30,9 +31,7 @@ class GenreEdit extends Component {
 
     let { id } = this.props.params;
     if (id !== 'new') {
-      fetch('/api/genre/' + id)
-        .then(response => response.json())
-        .then(data => this.setState({ genre: data }));
+      GenreService.get(id).then(data => this.setState({ genre: data }));
     } else {
       this.setState({ genre: this.emptyGenre });
     }
@@ -49,17 +48,7 @@ class GenreEdit extends Component {
 
   handleSubmit(event) {
     const genre = this.state.genre;
-
-    fetch('/api/genre', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(genre),
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ genre: data }));
+    GenreService.save(genre).then(data => this.setState({ genre: data }));
     this.props.history.push('/genre');
   }
 

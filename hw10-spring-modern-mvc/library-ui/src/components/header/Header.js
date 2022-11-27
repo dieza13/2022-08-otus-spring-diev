@@ -14,7 +14,7 @@ function Header() {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/book">Книги</Nav.Link>
-                            <Nav.Link href="/author">Акторы</Nav.Link>
+                            <Nav.Link href="/author">Авторы</Nav.Link>
                             <Nav.Link href="/genre">Жанры</Nav.Link>
                         </Nav>
                         {/* <Nav className="justify-content-end">

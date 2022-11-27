@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import AuthorService from '../services/AuthorService';
 
 class AuthorList extends Component {
 
@@ -12,15 +13,11 @@ class AuthorList extends Component {
   }
 
    componentDidMount() {
-        fetch('/api/author')
-            .then(response => response.json())
-            .then(data => this.setState({authors: data}));
+        AuthorService.getAll().then(data => this.setState({authors: data}));
     }
 
   async remove(id) {
-     await fetch('/api/author/'+id, {
-         method: 'DELETE'
-     }).then(() => {
+    await AuthorService.remove(id).then(() => {
     let updatedAuthors = [...this.state.authors].filter(i => i.id !== id);
     this.setState({ authors: updatedAuthors });
      });

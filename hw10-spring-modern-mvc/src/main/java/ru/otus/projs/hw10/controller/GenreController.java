@@ -32,7 +32,7 @@ public class GenreController {
     }
 
     @DeleteMapping(path = "/api/genre/{id}")
-    public ResponseEntity deleteGenre(@PathVariable("id") long genreId) {
+    public ResponseEntity<?> deleteGenre(@PathVariable("id") long genreId) {
         genreService.deleteGenre(genreId);
         return ResponseEntity.ok().build();
     }

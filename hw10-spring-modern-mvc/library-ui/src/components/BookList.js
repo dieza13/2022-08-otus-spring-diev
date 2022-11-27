@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import BookService from '../services/BookService';
 
 
 
@@ -14,16 +15,11 @@ class BookList extends Component {
   }
 
    componentDidMount() {
-        console.log('book-list init');
-        fetch('/api/book')
-            .then(response => response.json())
-            .then(data => this.setState({books: data}));
+        BookService.getAll().then(data => this.setState({books: data}));
     }
 
-  remove(id) {
-     fetch('/api/book/'+id, {
-         method: 'DELETE'
-     }).then(() => {
+  async remove(id) {
+    await BookService.remove(id).then(() => {
     let updatedBooks = [...this.state.books].filter(i => i.id !== id);
     this.setState({ books: updatedBooks });
      });
@@ -34,7 +30,6 @@ class BookList extends Component {
   }
 
   render() {
-    console.log('BookList render');
     const { books, isLoading } = this.state;
 
     if (isLoading) {

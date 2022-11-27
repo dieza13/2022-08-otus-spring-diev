@@ -3,12 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useParams } from "react-router-dom";
+import BookService from '../services/BookService';
+import AuthorService from '../services/AuthorService';
+import GenreService from '../services/GenreService';
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
 }
-
-
 
 class BookEdit extends Component {
 
@@ -37,19 +38,13 @@ class BookEdit extends Component {
 
     let { id } = this.props.params;
     if (id !== 'new') {
-      fetch('/api/book/' + id)
-        .then(response => response.json())
-        .then(data => this.setState({ book: data }));
+      BookService.get(id).then(data => this.setState({ book: data }));
     } else {
       this.setState({ book: this.emptyBook });
     }
 
-    fetch('/api/genre')
-      .then(response => response.json())
-      .then(data => this.setState({ genres: data }));
-    fetch('/api/author')
-      .then(response => response.json())
-      .then(data => this.setState({ authors: data }));
+    GenreService.getAll().then(data => this.setState({ genres: data }));
+    AuthorService.getAll().then(data => this.setState({ authors: data }));
   }
 
   handleChange(event) {
@@ -84,16 +79,7 @@ class BookEdit extends Component {
   handleSubmit(event) {
     const book = this.state.book;
 
-    fetch('/api/book', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(book),
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ book: data }));
+    BookService.save(book).then(data => this.setState({ book: data }));
     this.props.history.push('/book');
   }
 

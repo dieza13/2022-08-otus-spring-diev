@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import GenreService from '../services/GenreService';
 
 class GenreList extends Component {
 
@@ -12,15 +13,11 @@ class GenreList extends Component {
   }
 
    componentDidMount() {
-        fetch('/api/genre')
-            .then(response => response.json())
-            .then(data => this.setState({genres: data}));
+        GenreService.getAll().then(data => this.setState({genres: data}));
     }
 
   async remove(id) {
-     await fetch('/api/genre/'+id, {
-         method: 'DELETE'
-     }).then(() => {
+     await GenreService.remove(id).then(() => {
     let updatedgenres = [...this.state.genres].filter(i => i.id !== id);
     this.setState({ genres: updatedgenres });
      });

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useParams } from "react-router-dom";
+import AuthorService from '../services/AuthorService';
 
 function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
@@ -31,9 +32,7 @@ class AuthorEdit extends Component {
 
     let { id } = this.props.params;
     if (id !== 'new') {
-      fetch('/api/author/' + id)
-        .then(response => response.json())
-        .then(data => this.setState({ author: data }));
+      AuthorService.get(id).then(data => this.setState({ author: data }));
     } else {
       this.setState({ author: this.emptyAuthor });
     }
@@ -49,18 +48,8 @@ class AuthorEdit extends Component {
   }
 
   handleSubmit(event) {
-    const author = this.state.author;
-
-    fetch('/api/author', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(author),
-    })
-      .then(response => response.json())
-      .then(data => this.setState({ author: data }));
+    const author = this.state.author;    
+    AuthorService.save(author).then(data => this.setState({ author: data }));
     this.props.history.push('/author');
   }
 
