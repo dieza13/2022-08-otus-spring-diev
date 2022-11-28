@@ -1,0 +1,9 @@
+spring:
+#  mongodb:
+#    embedded:
+#      version: "3.5.5"
+  data:
+    mongodb:
+      uri: mongodb://localhost
+      port: 27017
+      database: library_db
