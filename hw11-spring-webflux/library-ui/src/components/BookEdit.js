@@ -16,8 +16,8 @@ class BookEdit extends Component {
   emptyBook = {
     id: '',
     name: '',
-    author: {},
-    genre: {}
+    authorId: '',
+    genreId: ''
   };
 
   constructor(props) {
@@ -62,7 +62,7 @@ class BookEdit extends Component {
     const name = target.name;
     let selectedGenre = [...this.state.genres].filter(i => i.id == value)[0];
     let book = { ...this.state.book };
-    book[name] = selectedGenre;
+    book[name] = selectedGenre.id;
     this.setState({ book });
   }
 
@@ -72,7 +72,7 @@ class BookEdit extends Component {
     const name = target.name;
     let selectedAuthor = [...this.state.authors].filter(i => i.id == value)[0];
     let book = { ...this.state.book };
-    book[name] = selectedAuthor;
+    book[name] = selectedAuthor.id;
     this.setState({ book });
   }
 
@@ -110,7 +110,7 @@ class BookEdit extends Component {
 
               <Form.Group className="form-edit-group-row mb-3" >
                 <Form.Label>Автор</Form.Label>
-                <Form.Select value={book.author.id} name="author" onChange={this.handleAuthorChange}>
+                <Form.Select value={book.authorId} name="authorId" onChange={this.handleAuthorChange}>
                   <option></option>
                   {authors.map(a => (
                     <option key={a.id} value={a.id}>{this.authorFormat(a)}</option>
@@ -120,7 +120,7 @@ class BookEdit extends Component {
 
               <Form.Group className="form-edit-group-row mb-3" >
                 <Form.Label>Жанр</Form.Label>
-                <Form.Select value={book.genre.id} name="genre" onChange={this.handleGenreChange}>
+                <Form.Select value={book.genreId} name="genreId" onChange={this.handleGenreChange}>
                   <option></option>
                   {genres.map(g => (
                     <option key={g.id} value={g.id}>{g.name}</option>

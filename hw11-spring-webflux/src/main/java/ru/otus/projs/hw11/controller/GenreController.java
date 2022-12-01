@@ -5,17 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.projs.hw11.model.Author;
 import ru.otus.projs.hw11.model.Genre;
 import ru.otus.projs.hw11.repository.BookRepository;
 import ru.otus.projs.hw11.repository.GenreRepository;
-import ru.otus.projs.hw11.service.GenreService;
 
 @RestController
 @RequiredArgsConstructor
 public class GenreController {
 
-    private final GenreService genreService;
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
 
@@ -31,7 +28,7 @@ public class GenreController {
 
     @PostMapping(path = "/api/genre")
     public Mono<ResponseEntity<Genre>> saveGenre(@RequestBody Genre genre) {
-        return genreRepository.save(genreService.prepareGenre4Save(genre))
+        return genreRepository.save(prepareGenre4Save(genre))
                 .map(ResponseEntity::ok);
     }
 
@@ -41,6 +38,11 @@ public class GenreController {
                 .filter(id -> id == 0)
                 .flatMap(cnt -> genreRepository.deleteById(genreId).map(ResponseEntity::ok))
                 .switchIfEmpty(Mono.fromCallable(()->ResponseEntity.unprocessableEntity().build()));
+    }
+
+    private Genre prepareGenre4Save(Genre genre) {
+        genre.setId(genre.getId().equals("") ? null : genre.getId());
+        return genre;
     }
 
 }

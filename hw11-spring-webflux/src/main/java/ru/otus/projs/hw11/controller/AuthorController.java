@@ -8,13 +8,11 @@ import reactor.core.publisher.Mono;
 import ru.otus.projs.hw11.model.Author;
 import ru.otus.projs.hw11.repository.AuthorRepository;
 import ru.otus.projs.hw11.repository.BookRepository;
-import ru.otus.projs.hw11.service.AuthorService;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthorController {
 
-    private final AuthorService authorService;
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
 
@@ -30,7 +28,7 @@ public class AuthorController {
 
     @PostMapping(path = "/api/author")
     public Mono<ResponseEntity<Author>> saveAuthor(@RequestBody Author author) {
-        return authorRepository.save(authorService.prepareAuthor4Save(author))
+        return authorRepository.save(prepareAuthor4Save(author))
                 .map(ResponseEntity::ok);
     }
 
@@ -40,6 +38,11 @@ public class AuthorController {
                 .filter(id -> id == 0)
                 .flatMap(cnt -> authorRepository.deleteById(authorId).map(ResponseEntity::ok))
                 .switchIfEmpty(Mono.fromCallable(()->ResponseEntity.unprocessableEntity().build()));
+    }
+
+    private Author prepareAuthor4Save(Author author) {
+        author.setId(author.getId().equals("") ? null : author.getId());
+        return author;
     }
 
 }
