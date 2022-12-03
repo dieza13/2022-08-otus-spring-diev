@@ -36,10 +36,9 @@ public class BookController {
 
         Mono<Author> authorMono = authorRepository.findById(book.getAuthorId());
         Mono<Genre> genreMono = genreRepository.findById(book.getGenreId());
-        Mono<BookToSave> bookMono = Mono.just(book);
 
-        return Mono.zip(bookMono,authorMono,genreMono)
-                .map(l -> l.getT1().toDomain( l.getT2(), l.getT3()))
+        return Mono.zip(authorMono,genreMono)
+                .map(l -> book.toDomain( l.getT1(), l.getT2()))
                 .flatMap(b -> bookRepository.save(prepareBook4Save(b)))
                 .map(ResponseEntity::ok);
     }
