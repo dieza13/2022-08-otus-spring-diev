@@ -18,3 +18,4 @@ spring-2022-08
 Работа 8: hw08-spring-mongodb  
 Работа 9: hw09-spring-mvc  
 Работа 10: hw10-spring-modern-mvc  
+Работа 11: hw11-spring-webflux  
