@@ -1,0 +1,43 @@
+#server:
+#  servlet:
+#    context-path: /super-lib
+
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  messages:
+    basename: "messages/message"
+    encoding: "UTF-8"
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: admin
+    password: qwerty
+  liquibase:
+    enabled: true
+    change-log: "classpath:/db/changelog/changelog-master.yml"
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+  h2:
+    console:
+      path: /h2
+      settings:
+          web-allow-others: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
+        security:
+          web:
+            FilterChainProxy: DEBUG
