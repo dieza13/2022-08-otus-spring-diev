@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.projs.hw12.model.Author;
@@ -88,6 +89,55 @@ class BookControllerTest {
         mvc.perform(delete("/api/book/1", book).with(csrf()))
                 .andExpect(status().isOk());
         verify(bookService, times(1)).deleteBook(1L);
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void bookList_errorOnBadUser() throws Exception {
+
+        List<Book> books = List.of(createBook(11L), createBook(12L));
+        when(bookService.findAll()).thenReturn(books);
+
+        mvc.perform(get("/api/book"))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void getBookById_errorOnBadUser() throws Exception {
+
+        Book book = createBook(11L);
+        when(bookService.getBookById(11L)).thenReturn(book);
+
+        mvc.perform(get("/api/book/11").contentType(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void saveBook_errorOnBadUser() throws Exception {
+        Book book = createBook(1L);
+        when(bookService.saveBook(any())).thenReturn(book);
+        String expectedResult = mapper.writeValueAsString(BookToSave.toDto(book));
+
+        mvc.perform(post("/api/book").with(csrf())
+                .contentType(APPLICATION_JSON)
+                .content(expectedResult))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void deleteBook_errorOnBadUser() throws Exception {
+
+        Book book = new Book();
+        doNothing().when(bookService).deleteBook(anyLong());
+        mvc.perform(delete("/api/book/1", book).with(csrf()))
+                .andExpect(status().isUnauthorized());
 
     }
 

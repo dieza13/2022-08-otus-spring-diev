@@ -7,10 +7,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.otus.projs.hw12.service.UserDetailService;
 
 @Configuration
 @EnableWebSecurity
@@ -43,7 +43,7 @@ public class SecurityConfig  {
     }
 
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http,UserDetailService userDetailService) throws Exception {
+    public AuthenticationManager authManager(HttpSecurity http,UserDetailsService userDetailService) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());

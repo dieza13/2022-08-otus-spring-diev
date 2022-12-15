@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.projs.hw12.model.Genre;
@@ -22,7 +23,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@WithMockUser(
+        username = "admin",
+        authorities = {"ROLE_ADMIN"}
+)
 @DisplayName("Контроллер по работе с Genre")
 @WebMvcTest(GenreController.class)
 class GenreControllerTest {
@@ -36,10 +40,7 @@ class GenreControllerTest {
     @MockBean
     private GenreService genreService;
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
+
     @Test
     void genreList_return2Genres() throws Exception {
 
@@ -52,10 +53,7 @@ class GenreControllerTest {
 
     }
 
-    @WithMockUser(
-            username = "admin",
-            authorities = {"ROLE_ADMIN"}
-    )
+
     @Test
     void getGenreById() throws Exception {
 
@@ -68,7 +66,6 @@ class GenreControllerTest {
 
     }
 
-    @WithMockUser(username="admin",authorities={"ROLE_ADMIN"})
     @Test
     void saveGenre() throws Exception {
         Genre genre = createGenre(1L);
@@ -83,10 +80,6 @@ class GenreControllerTest {
 
     }
 
-    @WithMockUser(
-            username = "fedor",
-            authorities = {"ROLE_USER"}
-    )
     @Test
     void deleteGenre_ok() throws Exception {
 
@@ -95,6 +88,55 @@ class GenreControllerTest {
         mvc.perform(delete("/api/genre/1", genre).with(csrf()))
                 .andExpect(status().isOk());
         verify(genreService, times(1)).deleteGenre(1L);
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void genreList_errorOnBadUser() throws Exception {
+
+        List<Genre> genres = List.of(createGenre(11L), createGenre(12L));
+        when(genreService.findAll()).thenReturn(genres);
+
+        mvc.perform(get("/api/genre"))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void getGenreById_errorOnBadUser() throws Exception {
+
+        Genre genre = createGenre(11L);
+        when(genreService.getGenreById(11L)).thenReturn(genre);
+
+        mvc.perform(get("/api/genre/11").contentType(APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void saveGenre_errorOnBadUser() throws Exception {
+        Genre genre = createGenre(1L);
+        when(genreService.saveGenre(any())).thenReturn(genre);
+        String expectedResult = mapper.writeValueAsString(genre);
+
+        mvc.perform(post("/api/genre").with(csrf())
+                .contentType(APPLICATION_JSON)
+                .content(expectedResult))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @WithAnonymousUser
+    @Test
+    void deleteGenre_errorOnBadUser() throws Exception {
+
+        Genre genre = new Genre();
+        doNothing().when(genreService).deleteGenre(anyLong());
+        mvc.perform(delete("/api/genre/1", genre).with(csrf()))
+                .andExpect(status().isUnauthorized());
 
     }
     private Genre createGenre(long id) {
