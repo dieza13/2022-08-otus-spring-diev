@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.acls.model.MutableAcl;
+import org.springframework.security.acls.model.MutableAclService;
 import ru.otus.projs.hw13.model.Author;
 import ru.otus.projs.hw13.model.Book;
 import ru.otus.projs.hw13.model.Genre;
@@ -27,8 +29,8 @@ class SimpleBookServiceTest {
     private SimpleBookService bookService;
     @MockBean
     private BookRepository bookRepository;
-
-    private static final long WANTED_BOOK_ID = 1;
+    @MockBean
+    private MutableAclService aclService;
 
     @Test
     void findAll_ok() {
@@ -65,6 +67,8 @@ class SimpleBookServiceTest {
     void saveBook_withIdAndName() {
         Book book1 = createBook(1);
         when(bookRepository.save(book1)).thenReturn(book1);
+        MutableAcl acl = Mockito.mock(MutableAcl.class);
+        when(aclService.readAclById(any())).thenReturn(acl);
         Book book = bookService.saveBook(book1);
         assertThat(book.getName()).isEqualTo(book1.getName());
         assertThat(book.getId()).isEqualTo(book1.getId());

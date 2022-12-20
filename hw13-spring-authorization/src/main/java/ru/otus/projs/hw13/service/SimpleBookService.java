@@ -1,6 +1,7 @@
 package ru.otus.projs.hw13.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.GrantedAuthoritySid;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
@@ -19,6 +20,7 @@ public class SimpleBookService implements BookService {
     private final BookRepository bookRepository;
     private final MutableAclService aclService;
 
+    @PostFilter("hasPermission(filterObject, 'READ')")
     @Transactional(readOnly = true)
     @Override
     public List<Book> findAll() {
