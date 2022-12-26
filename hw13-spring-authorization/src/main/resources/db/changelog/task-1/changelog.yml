@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: "task-1: create_author_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_author_table.sql
+  - changeSet:
+      id: "task-1: create_genre_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_genre_table.sql
+  - changeSet:
+      id: "task-1: create_book_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_book_table.sql
+  - changeSet:
+      id: "task-1: create_user_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_user_table.sql
+  - changeSet:
+      id: "task-1: create_role_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_role_table.sql
+  - changeSet:
+      id: "task-1: create_user_role_table.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_user_role_table.sql
+  - changeSet:
+      id: "task-1: create_acl_tables.sql"
+      author: diev
+      changes:
+        - sqlFile:
+            endDelimiter: ;
+            splitStatements: true
+            path: classpath:/db/changelog/task-1/create_acl_tables.sql
