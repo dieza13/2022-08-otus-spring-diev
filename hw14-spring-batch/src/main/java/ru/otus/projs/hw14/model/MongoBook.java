@@ -22,9 +22,12 @@ public class MongoBook {
     @Field("genre")
     private MongoGenre genre;
 
-    public static MongoBook toMongoEntity(Book book) {
-        return new MongoBook(null, book.getName(), MongoAuthor.toMongoEntity(book.getAuthor()),
+    public static MongoBook toMongoEntity(Book book, String authorId, String genreId) {
+        MongoBook mongoBook = new MongoBook(null, book.getName(), MongoAuthor.toMongoEntity(book.getAuthor()),
                 MongoGenre.toMongoEntity(book.getGenre()));
+        mongoBook.getAuthor().setId(authorId);
+        mongoBook.getGenre().setId(genreId);
+        return mongoBook;
     }
 
 }

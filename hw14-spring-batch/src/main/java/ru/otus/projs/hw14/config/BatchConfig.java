@@ -29,6 +29,7 @@ import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.util.Assert;
 import ru.otus.projs.hw14.model.*;
 import ru.otus.projs.hw14.service.ClearService;
+import ru.otus.projs.hw14.service.IdSynchronizerService;
 import ru.otus.projs.hw14.writer.MongoItemWriterWithExtractedId;
 
 import javax.persistence.EntityManagerFactory;
@@ -43,10 +44,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class BatchConfig {
 
-    private final Map<Long, String> syncAuthorIds = new ConcurrentHashMap<>();
-    private final Map<Long, String> syncGenreIds = new ConcurrentHashMap<>();
+
     private final ClearService clearService;
 
+    private final IdSynchronizerService idSync;
     private static final String MIGRATION_JOB_NAME = "LIBRARY-MIGRATION-JOB";
 
     private final EntityManagerFactory entityManagerFactory;
@@ -55,7 +56,7 @@ public class BatchConfig {
     private final MongoTemplate mongoTemplate;
 
     @Bean
-    public Flow splitFlow(Flow authorMigrationFlow, Flow genreMigrationFlow, Step bookMigrationStep, Step prepareStep) {
+    public Flow splitFlow(Flow authorMigrationFlow, Flow genreMigrationFlow) {
         return new FlowBuilder<SimpleFlow>("authorGenreMigrateFlow")
                 .split(taskExecutor())
                 .add(authorMigrationFlow, genreMigrationFlow)
@@ -116,7 +117,7 @@ public class BatchConfig {
                     @Override
                     public void afterWrite(List<? extends MongoAuthor> items) {
                         log.info("Конец записи");
-                        items.forEach(item -> syncAuthorIds.put(item.getOldId(), item.getId()));
+                        items.forEach(item -> idSync.putIdLink(item.getOldId(), item.getId(), IdSynchronizerService.EntryType.author));
                     }
 
                     @Override
@@ -145,7 +146,7 @@ public class BatchConfig {
                     @Override
                     public void afterWrite(List<? extends MongoGenre> items) {
                         log.info("Конец записи");
-                        items.forEach(item -> syncGenreIds.put(item.getOldId(), item.getId()));
+                        items.forEach(item -> idSync.putIdLink(item.getOldId(), item.getId(), IdSynchronizerService.EntryType.genre));
                     }
 
                     @Override
@@ -188,11 +189,9 @@ public class BatchConfig {
     @Bean
     public ItemProcessor<Book, MongoBook> bookProcessor() {
         return (book) -> {
-            MongoBook mongoBook = MongoBook.toMongoEntity(book);
-            String genreId = syncGenreIds.get(book.getGenre().getId());
-            String authorId = syncAuthorIds.get(book.getAuthor().getId());
-            mongoBook.getAuthor().setId(authorId);
-            mongoBook.getGenre().setId(genreId);
+            MongoBook mongoBook = MongoBook.toMongoEntity(book,
+                    idSync.getIdByOld(book.getAuthor().getId(), IdSynchronizerService.EntryType.author),
+                    idSync.getIdByOld(book.getGenre().getId(), IdSynchronizerService.EntryType.genre));
             return mongoBook;
         };
     }
