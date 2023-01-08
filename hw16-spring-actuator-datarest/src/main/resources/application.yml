@@ -1,0 +1,31 @@
+spring:
+  data:
+    rest:
+      basePath: /api
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: admin
+    password: qwerty
+  liquibase:
+    enabled: true
+    change-log: "classpath:/db/changelog/changelog-master.yml"
+  h2:
+    console:
+      path: /h2
+      settings:
+          web-allow-others: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  file:
+    name: logfile.log
+#  pattern:
+#    file: "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
