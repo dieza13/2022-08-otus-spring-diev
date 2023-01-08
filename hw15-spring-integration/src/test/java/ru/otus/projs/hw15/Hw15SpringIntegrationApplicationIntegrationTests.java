@@ -2,25 +2,20 @@ package ru.otus.projs.hw15;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 import ru.otus.projs.hw15.model.Contract;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Hw15SpringIntegrationApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource(properties = "server.port=8080")
+@SpringBootTest(properties = "server.port=8080", webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class Hw15SpringIntegrationApplicationIntegrationTests {
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
-	private final String url = "http://localhost:8080/contract/draft";
+	private final static String URL = "http://localhost:8080/contract/draft";
 
 	@Test
 	void callContractService_OK() {
@@ -33,7 +28,7 @@ class Hw15SpringIntegrationApplicationIntegrationTests {
 				"}";
 		HttpEntity<String> entity = new HttpEntity<>(request, headers);
 
-		ResponseEntity<Contract> response = restTemplate.exchange(url, HttpMethod.POST, entity, Contract.class);
+		ResponseEntity<Contract> response = restTemplate.exchange(URL, HttpMethod.POST, entity, Contract.class);
 		Assertions.assertThat(response).isNotNull();
 		Contract contract = response.getBody();
 		Assertions.assertThat(contract).isNotNull();
