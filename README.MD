@@ -22,4 +22,5 @@ spring-2022-08
 Работа 12: hw12-spring-authentication  
 Работа 13: hw13-spring-authorization  
 Работа 14: hw14-spring-batch  
-Работа 15: hw15-spring-integration  
+Работа 15: hw15-spring-integration
+Работа 16: hw16-spring-actuator-datarest  
