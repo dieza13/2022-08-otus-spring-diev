@@ -1,0 +1,11 @@
+logging:
+  level:
+    org.springframework.integration:
+
+service:
+  hosts:
+    customerService: http://localhost:8080
+    documentService: http://localhost:8080
+    contractService: http://localhost:8080
+    ruleService: http://localhost:8080
+

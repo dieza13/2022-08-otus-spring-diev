@@ -29,6 +29,7 @@
         <module>hw12-spring-authentication</module>        
         <module>hw13-spring-authorization</module>
         <module>hw14-spring-batch</module>
+        <module>hw15-spring-integration</module>
         <module>hw16-spring-actuator-datarest</module>
     </modules>
 
