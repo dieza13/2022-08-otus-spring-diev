@@ -1,6 +1,6 @@
 create table author
 (
-   id long auto_increment primary key,
+   id bigserial not null primary key,
    name varchar(255) not null,
    lastname varchar(255) not null
 );
