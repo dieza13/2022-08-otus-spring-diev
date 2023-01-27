@@ -31,6 +31,7 @@
         <module>hw14-spring-batch</module>
         <module>hw15-spring-integration</module>
         <module>hw16-spring-actuator-datarest</module>
+        <module>hw17-spring-docker</module>
     </modules>
 
 </project>
