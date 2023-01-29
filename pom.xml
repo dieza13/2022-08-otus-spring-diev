@@ -32,6 +32,7 @@
         <module>hw15-spring-integration</module>
         <module>hw16-spring-actuator-datarest</module>
         <module>hw17-spring-docker</module>
+        <module>hw18-spring-cloud-hystrix</module>
     </modules>
 
 </project>
