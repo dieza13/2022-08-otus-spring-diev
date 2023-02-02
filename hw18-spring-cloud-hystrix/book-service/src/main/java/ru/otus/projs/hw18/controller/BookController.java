@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.projs.hw18.model.Book;
 import ru.otus.projs.hw18.model.dto.BookToSave;
-import ru.otus.projs.hw18.service.BookService;
+import ru.otus.projs.hw18.service.BookServiceWithHystrix;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+    private final BookServiceWithHystrix bookService;
 
     @GetMapping(path = "/api/book")
     public List<Book> bookList() {
