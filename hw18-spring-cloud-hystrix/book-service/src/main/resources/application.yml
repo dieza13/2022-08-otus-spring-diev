@@ -1,0 +1,74 @@
+#server:
+#  servlet:
+#    context-path: /super-lib
+server:
+  port: 8081
+spring:
+  application:
+    name: book-service
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  messages:
+    basename: "messages/message"
+    encoding: "UTF-8"
+  datasource:
+    url: jdbc:h2:mem:library
+    driverClassName: org.h2.Driver
+    username: admin
+    password: qwerty
+  liquibase:
+    enabled: true
+    change-log: "classpath:/db/changelog/changelog-master.yml"
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+  h2:
+    console:
+      path: /h2
+      settings:
+          web-allow-others: true
+### eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8001/eureka"
+    register-with-eureka: true
+    fetch-registry: true
+  server:
+    eviction-interval-timer-in-ms: 15000
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instance-id: "${spring.application.name}:${server.port}"
+    prefer-ip-address: true
+hystrix:
+  command:
+    commonBookListKey:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1500
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web:
+#          filter:
+#            CommonsRequestLoggingFilter: DEBUG
+#        security:
+#          web:
+#            FilterChainProxy: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

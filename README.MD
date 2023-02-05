@@ -25,3 +25,4 @@ spring-2022-08
 Работа 15: hw15-spring-integration  
 Работа 16: hw16-spring-actuator-datarest  
 Работа 17: hw17-spring-docker  
+Работа 18: hw18-spring-cloud-hystrix  

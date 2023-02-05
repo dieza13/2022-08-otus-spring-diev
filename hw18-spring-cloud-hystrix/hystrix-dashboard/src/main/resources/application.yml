@@ -1,0 +1,32 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: hystrix-dashboard
+
+## Standalone Eureka settings
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8001/eureka"
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instance-id: "${spring.application.name}:${server.port}"
+    prefer-ip-address: true
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: localhost
+turbine:
+  app-config: book-service
+  cluster-name-expression: new String('default')
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
