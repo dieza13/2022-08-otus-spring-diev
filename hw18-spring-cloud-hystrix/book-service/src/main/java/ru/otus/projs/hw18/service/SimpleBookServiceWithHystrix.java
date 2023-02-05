@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SimpleBookServiceWithHystrix implements BookServiceWithHystrix {
+public class SimpleBookServiceWithHystrix implements BookService {
 
     private final BookService bookService;
 

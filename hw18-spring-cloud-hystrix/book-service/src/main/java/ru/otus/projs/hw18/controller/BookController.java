@@ -1,19 +1,23 @@
 package ru.otus.projs.hw18.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.projs.hw18.model.Book;
 import ru.otus.projs.hw18.model.dto.BookToSave;
-import ru.otus.projs.hw18.service.BookServiceWithHystrix;
+import ru.otus.projs.hw18.service.BookService;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 public class BookController {
 
-    private final BookServiceWithHystrix bookService;
+
+    private final BookService bookService;
+
+    public BookController(@Qualifier("simpleBookServiceWithHystrix") BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @GetMapping(path = "/api/book")
     public List<Book> bookList() {
